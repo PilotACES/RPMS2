@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.rpms.pojos">
+	<class name="BuildDTO" table="tb_build">
+		<id name="id" column="build_id">
+			<generator class="native" />
+		</id>
+		<property name="buildName" column="buildName" not-null="true" />
+		<property name="buildStart" column="buildStart" not-null="true"
+			type="date" />
+		<property name="buildFinish" column="buildFinish" not-null="true"
+			type="date" />
+		<property name="buildLeak" column="buildLeak" />
+		<property name="buildArea" column="buildArea" not-null="true"
+			type="float" />
+		<set table="tb_room" name="roomSet" inverse="true">
+			<key column="build_id" not-null="true" />
+			<one-to-many class="RoomDTO" />
+		</set>
+	</class>
+
+	<class name="RoomDTO" table="tb_room">
+		<id name="id" column="room_id">
+			<generator class="native" />
+		</id>
+		<property name="roomName" column="roomName" not-null="true"
+			unique="true" />
+		<property name="roomDate" column="roomDate" type="date" />
+		<property name="roomType" column="roomType" />
+		<property name="roomUse" column="roomUse" />
+		<property name="roomArea" column="roomArea" type="float"
+			not-null="true" />
+		<property name="roomPercent" column="roomPercent" type="float"
+			not-null="true" />
+		<set table="tb_RoomOwner" name="roomOwner" inverse="true">
+			<key column="room_id" />
+			<one-to-many class="RoomOwner" />
+		</set>
+		<many-to-one name="build" class="BuildDTO" column="build_id"
+			cascade="all" />
+	</class>
+	<class name="OwnerDTO" table="tb_owner">
+		<id name="id" column="owner_id">
+			<generator class="native" />
+		</id>
+		<property name="ownerName" />
+		<property name="ownerSex" />
+		<property name="ownerNative" column="ownNative" />
+		<property name="ownerTel" />
+		<property name="ownerIdCard" />
+		<property name="ownerCompany" column="ownerCom" />
+		<one-to-one name="user" class="com.rpms.pojos.UserDTO"
+			cascade="all" />
+		<many-to-one name="role" column="role_id" cascade="all"
+			class="RolesDTO" />
+		<set table="tb_member" name="memberSet" inverse="true">
+			<key column="owner_id" />
+			<one-to-many class="MemberDTO" />
+		</set>
+		<set name="roomOwner" table="tb_RoomOwner" inverse="true">
+			<key column="owner_id" />
+			<one-to-many class="RoomOwner" />
+		</set>
+		<set name="pay" table="tb_pay" inverse="true">
+			<key column="owner_id" />
+			<one-to-many class="PayDTO" />
+		</set>
+	</class>
+	<class name="RoomOwner" table="tb_RoomOwner">
+		<id name="id" column="RoomOwner_id">
+			<generator class="native" />
+		</id>
+		<many-to-one name="owner" column="owner_id" class="OwnerDTO"
+			cascade="all" />
+		<many-to-one name="room" column="room_id" class="RoomDTO"
+			cascade="all" />
+	</class>
+	<class name="MemberDTO" table="tb_member">
+		<id name="id" column="member_id">
+			<generator class="native" />
+		</id>
+		<property name="memberName" />
+		<property name="memberSex" />
+		<property name="memberNative" />
+		<property name="memberTel" />
+		<property name="memberCompany" />
+		<many-to-one name="owner" column="owner_id" cascade="all"
+			class="OwnerDTO" />
+	</class>
+	<class name="PowerDTO" table="tb_power">
+		<id name="id" column="power_id">
+			<generator class="native" />
+		</id>
+		<property name="powerName" />
+		<set name="rolePower" table="tb_rolePower" inverse="true">
+			<key column="power_id" />
+			<one-to-many class="RolePower" />
+		</set>
+	</class>
+	<class name="RolesDTO" table="tb_roles">
+		<id name="id" column="role_id">
+			<generator class="native" />
+		</id>
+		<property name="roleName" />
+		<set name="rolePower" table="tb_rolePower" inverse="true">
+			<key column="role_id" />
+			<one-to-many class="RolePower" />
+		</set>
+		<set name="user" table="tb_user" inverse="true">
+			<key column="roles_id" />
+			<one-to-many class="UserDTO" />
+		</set>
+	</class>
+	<class name="RolePower" table="tb_rolePower">
+		<id name="id" column="rolepower_id">
+			<generator class="native" />
+		</id>
+		<many-to-one name="role" class="RolesDTO" column="role_id"
+			cascade="all" />
+		<many-to-one name="power" class="PowerDTO" column="power_id"
+			cascade="all" />
+	</class>
+	<class name="UserDTO" table="tb_user">
+		<id name="id" column="user_id">
+			<generator class="native" />
+		</id>
+		<property name="userName" />
+		<property name="passWord" />
+		<one-to-one name="owner" class="com.rpms.pojos.OwnerDTO"
+			constrained="true" />
+		<many-to-one name="roles" class="RolesDTO" column="roles_id"
+			cascade="all" />
+	</class>
+	<class name="ChargeDTO" table="tb_charge">
+		<id name="id" column="charge_id">
+			<generator class="native" />
+		</id>
+		<property name="ChargeName" not-null="true" />
+		<property name="ChargeUnit" not-null="true" />
+		<set table="tb_pay" name="pay">
+			<key column="charge_id" />
+			<one-to-many class="PayDTO" />
+		</set>
+	</class>
+	<class name="PayDTO" table="tb_pay">
+		<id name="id" column="pay_id">
+			<generator class="native" />
+		</id>
+		<many-to-one name="charge" class="ChargeDTO" cascade="all"
+			not-null="true" />
+		<property name="payMoney" type="float" not-null="true" />
+		<property name="payReceive" type="float" not-null="true" />
+		<property name="payLack" type="float" not-null="true" />
+		<property name="payDate" type="date" not-null="true" />
+		<many-to-one name="Owner" class="OwnerDTO" cascade="all"
+			not-null="true" />
+		<property name="payState" not-null="true" />
+		<property name="payMonth" type="date" not-null="true" />
+	</class>
+	<class name="MaterialType" table="tb_materialType">
+		<id name="id" column="mType_id">
+			<generator class="native" />
+		</id>
+		<property name="typeName" column="mTypeName" type="string"
+			not-null="true" />
+		<set name="material" table="tb_material" inverse="true">
+			<key column="typeId" />
+			<one-to-many class="MaterialDTO" />
+		</set>
+	</class>
+	<class name="MaterialDTO" table="tb_material">
+		<id name="id" column="material_id">
+			<generator class="native" />
+		</id>
+		<property name="materialName" not-null="true" />
+		<property name="materialCount" not-null="true" />
+		<property name="materialPrice" not-null="true" />
+		<many-to-one name="materialType" class="MaterialType"
+			column="typeId" cascade="all" not-null="true" />
+		<property name="materialInDate" type="date" not-null="true" />
+		<property name="materialOutDate" type="date" />
+		<property name="materialStat" not-null="true" />
+	</class>
+</hibernate-mapping>

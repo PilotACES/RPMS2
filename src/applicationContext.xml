@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+http://www.springframework.org/schema/aop
+http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	
+	<bean class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+		id="sessionFactory">
+		<property value="WEB-INF/classes/hibernate.cfg.xml" name="configLocation" />
+	</bean>
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:orcl" />
+		<property name="user" value="mo" />
+		<property name="password" value="mo" />
+		<property name="maxPoolSize" value="50" />
+		<property name="minPoolSize" value="1" />
+		<property name="initialPoolSize" value="1" />
+		<property name="maxIdleTime" value="2000" />
+	</bean>
+
+	<bean class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+		id="txManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="delect*" propagation="REQUIRED" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="load*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="fenye" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut expression="execution(* com.rpms.dao.impl.*.*(..))"
+			id="mydao" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="mydao" />
+	</aop:config>
+	
+	<bean id="genericHibernateDAO" class="com.rpms.dao.impl.genericHibernateDAO">
+	<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="buildQuery" class="com.rpms.dao.impl.BuildQuery" parent="genericHibernateDAO"/>
+	
+	<bean id="buildService" class="com.rpms.service.BuildService">
+	<property name="generalDAO" ref="buildQuery"/>
+	</bean>
+	
+	<bean id="buildAction" class="com.rpms.action.BuildAction">
+	<property name="buildService" ref="buildService"/>
+	</bean>
+</beans>
