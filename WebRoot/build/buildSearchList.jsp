@@ -47,10 +47,10 @@
 
 <li class="bannerli" onmouseover="show(2);"><h5><a href="#" >楼栋管理</a></h5>
 <ul class="bannerchild" id="banner2">
-<li><a href="../build/buildAdd.html">增加楼栋</a></li>
-<li><a href="../build/buildList.html">删除楼栋</a></li>
-<li><a href="../build/buildList.html">查询楼栋</a></li>
-<li><a href="../build/buildList.html">修改楼栋</a></li>
+<li><a href="/build/buildAdd.jsp">增加楼栋</a></li>
+<li><a href="build!list.action">删除楼栋</a></li>
+<li><a href="build!list.action">查询楼栋</a></li>
+<li><a href="build!list.action">修改楼栋</a></li>
 </ul>
 </li>
 <li class="bannerli" onmouseover="show(3);"><h5><a href="#">房间管理</a></h5>
@@ -118,12 +118,12 @@
 </ul>
 </div>
 <div id="main">
-<form name="hiddenform" method="post" action="buildSearchList.html" id="hiddenform" onsubmit="return checkkey()">
+<form name="hiddenform" method="post" action="build!find.action" id="hiddenform" onsubmit="return checkkey()">
 <span class="style3">查询条件：</span>
-<select name="oneway">
+<select id="condition" name="condition">
 	<option value="0">--请选择--</option>
 	<option value="1">楼栋名</option>
-	<option value="２">开工时间</option>
+	<option value="2">开工时间</option>
 	<option value="3">竣工时间</option>
 	<option value="4">漏洞信息</option>
 	<option value="5">建筑面积</option>
@@ -186,7 +186,7 @@
                  <td colspan="7">
                   <ul>
                   
-                     <li><input name="addnews" type="button" value="添加楼栋"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';" onclick="window.location='buildAdd.html'"/></li>
+                     <li><input name="addnews" type="button" value="添加楼栋"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';" onclick="window.location='buildAdd.jsp'"/></li>
                      <li><input name="sumselect" type="button" value="全部选择"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"  onclick="checkAll();"/></li>
                      <li><input name="delete" type="submit" value="删除楼栋"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';" /></li>
                  

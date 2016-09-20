@@ -54,7 +54,13 @@ public class BuildAction extends ActionSupport{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		int currentPage=Integer.parseInt(request.getParameter("pageNum"));
+		String pageNum=request.getParameter("pageNum");
+		int currentPage;
+		if(pageNum==null||pageNum.equals("")){
+			currentPage=1;
+		}else{
+			currentPage=Integer.parseInt(pageNum);
+			}
 		page=buildService.fenye(currentPage, pageSize);
 		request.setAttribute("list", page);
 		return LIST;
@@ -68,7 +74,11 @@ public class BuildAction extends ActionSupport{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		int currentPage=Integer.parseInt(request.getParameter("pageNum"));
+		String pageNum=request.getParameter("pageNum");
+		int currentPage;
+		if(pageNum==null||pageNum.equals("")){
+			currentPage=1;
+		}else{currentPage=Integer.parseInt(pageNum);}
 		String propertyValue=request.getParameter("onetext");
 		if(condition.equals("0")){
 			page=buildService.fenye(currentPage, pageSize);
@@ -125,8 +135,10 @@ public class BuildAction extends ActionSupport{
 	
 	public String update(){
 		BuildDTO build=new BuildDTO();
+		HttpServletRequest request=ServletActionContext.getRequest();
+		int id=Integer.parseInt(request.getParameter("id"));
 		try {
-			build.setId(1);
+			build.setId(id);
 			build.setBuildName(buildName);
 			build.setBuildStart(sdf.parse(buildStart));
 			build.setBuildFinish(sdf.parse(buildFinish));

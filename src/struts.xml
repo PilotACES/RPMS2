@@ -2,19 +2,30 @@
 <!DOCTYPE struts PUBLIC
 	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
-	<struts>
-	<constant name="struts.devMode" value="true"/>
-	<constant name="struts.enable.DyamicMethodInvocation" value="true"/>
-	<constant name="struts.configuration.xml.reload" value="true"/>
-	<constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
-	<constant name="struts.action.extension" value="action,do,"/>
-	<constant name="struts.objectFactory" value="spring"/>
-	<package name="default" namespace="/" extends="struts-default">
-	<action name="build" class="com.rpms.action.BuildAction">
-	<result name="list">/build/buildList.jsp</result>
-	<result name="find">/build/buildSearchList.jsp</result>
-	<result name="add">/build/buildList.jsp</result>
-	<result name="ready">/build/buildUpdate.jsp</result>
-	</action>
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	<constant name="struts.action.extension" value="action,do," />
+	<constant name="struts.objectFactory" value="spring" />
+	<package name="default" extends="struts-default">
+		<action name="build" class="com.rpms.action.BuildAction">
+			<result name="list">/build/buildList.jsp</result>
+			<result name="find">/build/buildSearchList.jsp</result>
+			<result name="add" type="chain">
+				<param name="actionName">build</param>
+				<param name="method">list</param>
+			</result>
+			<result name="ready">/build/buildUpdate.jsp</result>
+			<result name="delect" type="chain">
+				<param name="actionName">build</param>
+				<param name="method">list</param>
+			</result>
+			<result name="update" type="chain">
+				<param name="actionName">build</param>
+				<param name="method">list</param>
+			</result>
+		</action>
 	</package>
-	</struts>
+</struts>

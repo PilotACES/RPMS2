@@ -1,14 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>角色管理</title>
 <style type="text/css" title="currentStyle" media="screen">
      @import url(../css/maincss1.css);
 	 @import url(../css/mainborder1.css);
 </style>
-<script src="../js/valentine.js" type="text/javascript"></script>
+<script type="text/javascript" src="../jquery-ui/external/jquery/jquery.js"></script>
+<script type="text/javascript" src="../jquery-ui/jquery-ui.js"></script>
+<script src="../js/valentine.js" type="text/javascript" charset="gb2312"></script>
 <script src="../js/information.js" type="text/javascript"></script>
+<script type="text/javascript" src="../js/datePicker.js"></script>
+<link href="../jquery-ui/jquery-ui.css" rel="stylesheet">
 </head>
 
 <body onload="startit();">
@@ -19,6 +25,13 @@
 <h5><a href="../Out.do">注销</a></h5>
 <h5><a href="../Out.do">退出</a></h5>
 <h5>现在时间</h5>
+<h5 id="year"></h5>
+<h5>年</h5>
+<h5 id="month"></h5>
+<h5>月</h5>
+<h5 id="day"></h5>
+<h5>日</h5>
+<h5 id="moreve"></h5>
 <h5 id="hours"></h5>
 <h5>:</h5>
 <h5 id="minutes"></h5>
@@ -115,7 +128,7 @@
 </ul>
 </div>
 <div id="main">
-<form name="form1" method="post" action="buildList.html" onsubmit="return checkbuild()">
+<form name="form1" method="post" action="../build!add.action" onsubmit="return checkbuild()">
 <div id="index">
  </div>
 <div id="table">
@@ -131,12 +144,12 @@
 </tr>
 <tr>
 <td>开工时间</td>
-<td><input name="buildStart" type="text" value="" onfocus="show_cele_date(buildStart,'','',buildStart)"/> </td>
+<td><input id="buildStart" name="buildStart" type="text"/> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
 <td>竣工时间</td>
-<td><input name="buildFinish" type="text" value="" onfocus="show_cele_date(buildFinish,'','',buildFinish)"/> </td>
+<td><input id="buildFinish" name="buildFinish" type="text"/> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
@@ -149,7 +162,6 @@
 <td><input name="buildArea" type="text" value="" /> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
-
 
 </tbody>
 <tfoot>

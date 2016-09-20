@@ -101,7 +101,7 @@
    }
    function checkAll(){
        var flag = false;
-       var element = document.form2.checkone;
+       var element = document.getElementById("checkone");
        for(j=0;j<element.length;j++){
           if(element[j].checked==false){
               for(i=0;i<element.length;i++){
@@ -261,11 +261,18 @@ isnclock();
 } 
 function isnclock() 
 { 
-var now=new Date(); 
+var now=new Date();
+var year=now.getFullYear();
+var mon=now.getMonth();
+var day=now.getDate();
 var hrs=now.getHours(); 
 var min=now.getMinutes(); 
-var sec=now.getSeconds(); 
-document.getElementById("hours").innerHTML = ""+((hrs>12)?hrs-12:hrs);
+var sec=now.getSeconds();
+document.getElementById("year").innerHTML = year;
+document.getElementById("month").innerHTML = mon+1;
+document.getElementById("day").innerHTML = ((day<10)?"0":"")+day;
+document.getElementById("moreve").innerHTML=(hrs>12)?"ÏÂÎç":"ÉÏÎç";
+document.getElementById("hours").innerHTML = (hrs>12)?(hrs-12):(hrs);
 document.getElementById("minutes").innerHTML = ((min<10)?"0":"")+min; 
 document.getElementById("seconds").innerHTML = ((sec<10)?"0":"")+sec; 
 isn1=setTimeout("isnclock()",1000); 

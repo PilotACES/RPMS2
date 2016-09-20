@@ -152,7 +152,8 @@ extends HibernateDaoSupport implements IGenericDAO<T, PK> {
 	public Integer getRowCount(DetachedCriteria criteria) {
 		criteria.setProjection(Projections.rowCount());
 		List list=this.findByCriteria(criteria, 0, 1);
-		return (Integer)list.get(0);
+		Number num=(Number)list.get(0);
+		return num.intValue();
 	}
 
 	public Object getStatValue(DetachedCriteria criteria, String propertyName, String StatName) {

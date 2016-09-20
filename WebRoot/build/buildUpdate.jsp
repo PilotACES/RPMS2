@@ -6,11 +6,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>角色管理</title>
 <style type="text/css" title="currentStyle" media="screen">
-     @import url(../css/maincss1.css);
-	 @import url(../css/mainborder1.css);
+     @import url(css/maincss1.css);
+	 @import url(css/mainborder1.css);
 </style>
-<script src="../js/valentine.js" type="text/javascript"></script>
-<script src="../js/information.js" type="text/javascript"></script>
+<link href="jquery-ui/jquery-ui.css" rel="stylesheet">
+<script type="text/javascript" src="jquery-ui/external/jquery/jquery.js"></script>
+<script type="text/javascript" src="jquery-ui/jquery-ui.js"></script>
+<script type="text/javascript" src="js/datePicker.js"></script>
+<script src="js/valentine.js" type="text/javascript" charset="gb2312"></script>
+<script src="js/information.js" type="text/javascript"></script>
 </head>
 
 <body onload="startit();">
@@ -21,6 +25,13 @@
 <h5><a href="../Out.do">注销</a></h5>
 <h5><a href="../Out.do">退出</a></h5>
 <h5>现在时间</h5>
+<h5 id="year"></h5>
+<h5>年</h5>
+<h5 id="month"></h5>
+<h5>月</h5>
+<h5 id="day"></h5>
+<h5>日</h5>
+<h5 id="moreve"></h5>
 <h5 id="hours"></h5>
 <h5>:</h5>
 <h5 id="minutes"></h5>
@@ -46,10 +57,10 @@
 
 <li class="bannerli" onmouseover="show(2);"><h5><a href="#" >楼栋管理</a></h5>
 <ul class="bannerchild" id="banner2">
-<li><a href="../build/buildAdd.html">增加楼栋</a></li>
-<li><a href="../build/buildList.html">删除楼栋</a></li>
-<li><a href="../build/buildList.html">查询楼栋</a></li>
-<li><a href="../build/buildList.html">修改楼栋</a></li>
+<li><a href="build/buildAdd.jsp">增加楼栋</a></li>
+<li><a href="build!list.action">删除楼栋</a></li>
+<li><a href="build!list.action">查询楼栋</a></li>
+<li><a href="build!list.action">修改楼栋</a></li>
 </ul>
 </li>
 <li class="bannerli" onmouseover="show(3);"><h5><a href="#">房间管理</a></h5>
@@ -117,39 +128,42 @@
 </ul>
 </div>
 <div id="main">
-<form name="form1" method="post" action="buildList.html" onsubmit="return checkbuild()">
+<form name="form1" method="post" action="build!update.action?id=${build.id}" onsubmit="return checkbuild()">
 <div id="index">
  </div>
 <div id="table">
 <table>
-<input type="hidden" name="buildId" value="${bdto.buildId }">
 <caption>楼栋修改</caption>
 <thead>
 </thead>
 <tbody>
 <tr>
+<td>楼栋编号</td>
+<td><input type="text" readonly="readonly" disabled="disabled" name="buildId" value="${build.id}"></td>
+</tr>
+<tr>
 <td>楼栋名</td>
-<td><input name="buildName" type="text" value="" /> </td>
+<td><input name="buildName" type="text" value="${build.buildName}" /> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
 <td>开工时间</td>
-<td><input name="buildStart" type="text" value="" onfocus="show_cele_date(buildStart,'','',buildStart)"/> </td>
+<td><input id="buildStart" name="buildStart" type="text" value="${build.buildStart}"/> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
 <td>竣工时间</td>
-<td><input name="buildFinish" type="text" value="" onfocus="show_cele_date(buildFinish,'','',buildFinish)"/> </td>
+<td><input id="buildFinish" name="buildFinish" type="text" value="${build.buildFinish}"/> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
 <td>漏洞信息</td>
-<td><input name="buildLeak" type="text" value="" /> </td>
+<td><input name="buildLeak" type="text" value="${build.buildLeak}" /> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
 <td>建筑面积</td>
-<td><input name="buildArea" type="text" value="" /> </td>
+<td><input name="buildArea" type="text" value="${build.buildArea}" /> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 
