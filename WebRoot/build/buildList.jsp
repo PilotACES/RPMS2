@@ -126,7 +126,7 @@
 </ul>
 </div>
 <div id="main">
-<form name="form1" method="post" action="buildSearchList.html" onsubmit="return checkkey()">
+<form name="form1" method="post" action="build!find.action" onsubmit="return checkkey()">
 <span class="style3">查询条件：</span>
 <select id="condition" name="condition">
 	<option value="0">--请选择--</option>

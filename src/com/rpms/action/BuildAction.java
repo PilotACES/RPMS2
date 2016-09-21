@@ -78,7 +78,9 @@ public class BuildAction extends ActionSupport{
 		int currentPage;
 		if(pageNum==null||pageNum.equals("")){
 			currentPage=1;
-		}else{currentPage=Integer.parseInt(pageNum);}
+		}else{
+			currentPage=Integer.parseInt(pageNum);
+			}
 		String propertyValue=request.getParameter("onetext");
 		if(condition.equals("0")){
 			page=buildService.fenye(currentPage, pageSize);
