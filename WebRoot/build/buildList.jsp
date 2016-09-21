@@ -178,8 +178,10 @@
                             <li>后页</li>
                             <li>末页</li>              
                             <li><span>转到</span>
-                            <select name="" id="pagenumber" onchange="build();">                              
-                                  <option value="">第1页</option>                                                           
+                            <select name="" id="pagenumber" onchange="build();">
+                            <c:forEach begin="1" end="${list.last}" step="1" var="i">                              
+                                  <option value="${i}">第${i}页</option>
+                            </c:forEach>                                                           
                             </select>
                             </li>
                          
