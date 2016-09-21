@@ -191,12 +191,12 @@
    function build(){
    	var oChange = document.getElementById("pagenumber");
    	var init = oChange.value;
-   	window.location="build!list.do?pageNum="+init;
+   	window.location="build!list.action?pageNum="+init;
    }
     function buildsearch(){
    	var oChange = document.getElementById("pagenumber");
    	var init = oChange.value;
-   	window.location="build!BuildListSearch.do?pageNum="+init;
+   	window.location="build!find.action?pageNum="+init;
    }
    function room(){
    	var oChange = document.getElementById("pagenumber");
@@ -255,9 +255,9 @@ clearTimeout(isn1);
 isn2=false; 
 } 
 function startit() 
-{ 
+{
 stopit(); 
-isnclock(); 
+isnclock();
 } 
 function isnclock() 
 { 
@@ -289,4 +289,4 @@ this[i+1]=isnArray.arguments[i];
 } 
 } 
 var isnMonths=new isnArray("1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"); 
-var isnDays=new isnArray("星期一","星期二","星期三","星期四","星期五","星期六","星期日");isnDays[0]="星期日"; 
+var isnDays=new isnArray("星期一","星期二","星期三","星期四","星期五","星期六","星期日");isnDays[0]="星期日";

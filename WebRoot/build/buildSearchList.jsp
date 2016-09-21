@@ -10,11 +10,23 @@
      @import url(css/maincss1.css);
 	 @import url(css/mainborder1.css);
 </style>
-<script src="js/valentine.js" type="text/javascript"></script>
+<script src="js/valentine.js" type="text/javascript" charset="gb2312"></script>
 <script src="js/information.js" type="text/javascript"></script>
+<script type="text/javascript">
+function getPage(){
+     var page='<%= request.getParameter("pageNum")%>'
+     var select=document.getElementById("pagenumber");
+     for(var i=0;i<select.options.length;i++){
+        if(select.options[i].value==page){
+           select.options[i].selected=true;
+           break;
+        }
+     }
+  }
+</script>
 </head>
 
-<body onload="startit();">
+<body onload="startit();getPage();">
 <div id="icon">fourthfire</div>
 <div id="userinfo">
 <h5>欢迎</h5>
@@ -22,6 +34,13 @@
 <h5><a href="../Out.do">注销</a></h5>
 <h5><a href="../Out.do">退出</a></h5>
 <h5>现在时间</h5>
+<h5 id="year"></h5>
+<h5>年</h5>
+<h5 id="month"></h5>
+<h5>月</h5>
+<h5 id="day"></h5>
+<h5>日</h5>
+<h5 id="moreve"></h5>
 <h5 id="hours"></h5>
 <h5>:</h5>
 <h5 id="minutes"></h5>
@@ -118,7 +137,7 @@
 </ul>
 </div>
 <div id="main">
-<form name="hiddenform" method="post" action="build!find.action" id="hiddenform" onsubmit="return checkkey()">
+<form id="hiddenform" name="hiddenform" method="post" action="build!find.action" id="hiddenform" onsubmit="return checkkey()">
 <span class="style3">查询条件：</span>
 <select id="condition" name="condition">
 	<option value="0">--请选择--</option>
@@ -131,7 +150,7 @@
 <input type="text" name="onetext" value="请输入关键字" id="txt1" onfocus="selectText();"/> 
 <input type="submit" name="Submit" value="查询"/>
 </form>
-<form name="form2" method="post" action="#" onsubmit="return befSubmit();">
+<form name="form2" method="post" action="build!delect.action" onsubmit="return befSubmit();">
 <div id="table">
 <table id="ec_table">
 <caption>楼栋信息表</caption>
@@ -171,12 +190,11 @@
                             <li><a href="../build!find.do?pageNum=${list.next }">下页</a></li>
                             <li><a href="../build!find.do?pageNum=${list.last }">末页</a></li>              
                             <li><span>转到</span>
-                            <select name="" id="pagenumber" onchange="build();">
+                            <select name="" id="pagenumber" onchange="buildsearch();">
                                   <c:forEach begin="1" end="${list.last }" step="1" var="i">                              
                                   <option value="${i }">第${i }页</option> 
                                   </c:forEach>                                                          
                             </select>
-                            
                             </li>
                          
                         </ul>                  

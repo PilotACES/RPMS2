@@ -471,20 +471,21 @@ function checkowner(){
     }
     }
  function checkkey(){
-	var oneway=document.forms[0].oneway.value;
+	var form=document.getElementById("hiddenform");
+	var oneway=form.condition.value;
 	if(oneway == 0){
 	  alert("请选择搜索类型！");
-	  document.forms[0].oneway.focus();
+	  form.oneway.focus();
 	  return false;
 	}
-    var onetext=document.forms[0].onetext.value;
+    var onetext=form.onetext.value;
    if(onetext == null||onetext == ""){
       alert("请输入关键字！");
-	  document.forms[0].onetext.focus();
+	  form.onetext.focus();
 	  return false;
     }else if(!(/[\u4e00-\u9fa5]/).exec(onetext)&&!(/^\w+$/).exec(onetext)&&!(/^\d+\.\d*$/).exec(onetext)){
      alert("关键字格式不正确！");
-	 document.form1.onetext.focus();
+	 form.onetext.focus();
 	 return false;
    } 
    }  

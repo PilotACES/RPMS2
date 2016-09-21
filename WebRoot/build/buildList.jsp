@@ -13,9 +13,21 @@
 </style>
 <script src="js/valentine.js" type="text/javascript" charset="gb2312"></script>
 <script src="js/information.js" type="text/javascript"></script>
+<script type="text/javascript">
+  function getPage(){
+     var page='<%= request.getParameter("pageNum")%>'
+     var select=document.getElementById("pagenumber");
+     for(var i=0;i<select.options.length;i++){
+        if(select.options[i].value==page){
+           select.options[i].selected=true;
+           break;
+        }
+     }
+  }
+</script>
 </head>
 
-<body onload="startit();">
+<body onload="startit();getPage();">
 <div id="icon">fourthfire</div>
 <div id="userinfo">
 <h5>欢迎</h5>
@@ -126,7 +138,7 @@
 </ul>
 </div>
 <div id="main">
-<form name="form1" method="post" action="build!find.action" onsubmit="return checkkey()">
+<form id="hiddenform" name="form1" method="post" action="build!find.action" onsubmit="return checkkey()">
 <span class="style3">查询条件：</span>
 <select id="condition" name="condition">
 	<option value="0">--请选择--</option>
@@ -173,10 +185,10 @@
                    <td colspan="7">
                       <h5>共${list.totalSize}条信息</h5>
                         <h5>当前第1页</h5>
-         <ul>                            <li>首页</li>
-                            <li><a href="../BuildAction!">前页</a></li>
-                            <li>后页</li>
-                            <li>末页</li>              
+         <ul>                            <li><a href="build!list.action?pageNum=1">首页</a></li>
+                            <li><a href="build!list.action?pageNum=${list.previous }">前页</a></li>
+                            <li><a href="build!list.action?pageNum=${list.next }">后页</a></li>
+                            <li><a href="build!list.action?pageNum=${list.last }">末页</a></li>              
                             <li><span>转到</span>
                             <select name="" id="pagenumber" onchange="build();">
                             <c:forEach begin="1" end="${list.last}" step="1" var="i">                              
