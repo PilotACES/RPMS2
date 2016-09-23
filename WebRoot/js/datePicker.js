@@ -17,6 +17,14 @@ $(document).ready(function(){
 	    	$("#buildStart").datepicker("option","maxDate",date);
 	    }
 	});
+	
+	$("#roomDate").datepicker({
+		altFormat:'yy-mm-dd',
+		dateFormat:'yy-mm-dd',
+		firstDay:1,
+		changeMonth:true,
+		changeYear:true
+	});
 	    
 }
 		);

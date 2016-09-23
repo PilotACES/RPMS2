@@ -10,7 +10,7 @@ http://www.springframework.org/schema/tx
 http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-4.2.xsd">
-	
+
 	<bean class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
 		id="sessionFactory">
 		<property value="WEB-INF/classes/hibernate.cfg.xml" name="configLocation" />
@@ -51,18 +51,28 @@ http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 			id="mydao" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="mydao" />
 	</aop:config>
-	
+
 	<bean id="genericHibernateDAO" class="com.rpms.dao.impl.genericHibernateDAO">
-	<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
-	<bean id="buildQuery" class="com.rpms.dao.impl.BuildQuery" parent="genericHibernateDAO"/>
-	
+
+	<bean id="buildQuery" class="com.rpms.dao.impl.BuildQuery" parent="genericHibernateDAO" />
+
 	<bean id="buildService" class="com.rpms.service.BuildService">
-	<property name="generalDAO" ref="buildQuery"/>
+		<property name="generalDAO" ref="buildQuery" />
 	</bean>
-	
+
 	<bean id="buildAction" class="com.rpms.action.BuildAction">
-	<property name="buildService" ref="buildService"/>
+		<property name="buildService" ref="buildService" />
+	</bean>
+
+	<bean id="roomQuery" class="com.rpms.dao.impl.RoomQuery" parent="genericHibernateDAO" />
+
+	<bean id="roomService" class="com.rpms.service.RoomService">
+		<property name="genericDAO" ref="roomQuery" />
+	</bean>
+
+	<bean id="roomAction" class="com.rpms.action.RoomAction">
+		<property name="genericService" ref="roomService" />
 	</bean>
 </beans>

@@ -1,7 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>角色管理</title>
 <style type="text/css" title="currentStyle" media="screen">
      @import url(../css/maincss1.css);
@@ -9,9 +12,22 @@
 </style>
 <script src="../js/valentine.js" type="text/javascript"></script>
 <script src="../js/information.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var use='<%= request.getAttribute("room")%>';
+    function showUseType(){
+        var select=document.getElementById("roomUse");
+        for(var i=0;i<select.options.length;i++){
+            var value=select.options[i].value;
+            if(value==use.roomType){
+                select.options[i].selected=true;
+                break;
+            }
+        }
+    }
+</script>
 </head>
 
-<body onload="startit();">
+<body onload="startit();showUseType();">
 <div id="icon">fourthfire</div>
 <div id="userinfo">
 <h5>欢迎</h5>
@@ -19,6 +35,13 @@
 <h5><a href="../Out.do">注销</a></h5>
 <h5><a href="../Out.do">退出</a></h5>
 <h5>现在时间</h5>
+<h5 id="year"></h5>
+<h5>年</h5>
+<h5 id="month"></h5>
+<h5>月</h5>
+<h5 id="day"></h5>
+<h5>日</h5>
+<h5 id="moreve"></h5>
 <h5 id="hours"></h5>
 <h5>:</h5>
 <h5 id="minutes"></h5>
@@ -115,58 +138,65 @@
 </ul>
 </div>
 <div id="main">
-<form name="form1" method="post" action="roomList.html" onsubmit="return checkroom()">
+<form name="form1" method="post" action="room!update.action?id=${room.id }" onsubmit="return checkroom()">
 <div id="index">
  </div>
 <div id="table">
 <table>
-<caption>房间添加</caption>
+<caption>房间修改</caption>
 <thead>
 </thead>
 <tbody>
 <tr>
 <td>楼栋名</td>
-<td> <select name="buildId" >
-     <option selected="selected">--请选择--</option>
-   
-	 <option value=""></option>
- 
-     </select>    
-</td>
+<td><select name="buildId" id="select">
+			<option value="0" selected="selected">----请选择</option>
+				<c:forEach items="${builds }" var="build">
+						<option value="${build.id }">${build.buildName}</option>
+					</c:forEach>
+            </select> </td>
 <td>请输入中文，不得超过8位数</td>
+</tr>
+<tr>
+<td>房间编号</td>
+<td><input type="text" disabled="disabled" readonly="readonly" id="roomId" name="roomId" value="${room.id }"></td>
+<td></td>
 </tr>
 <tr>
 <td>房间名</td>
-<td><input name="roomName" type="text" value="" /> </td>
+<td><input name="roomName" type="text" value="${room.roomName }" /> </td>
+<td>请输入中文，不得超过8位数</td>
+<tr>
+<td>入住时间</td>
+<td><input name="roomDate" type="text" value="${room.roomDate }" onfocus="show_cele_date(roomDate,'','',roomDate)"/> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
-<td>入住时间</td>
-<td><input name="roomDate" type="text" value="" onfocus="show_cele_date(roomDate,'','',roomDate)"/> </td>
-<td>请输入业主入住日期</td>
-</tr>
-<tr>
 <td>房型</td>
-<td><input name="roomType" type="text" value="" /> </td>
+<td><input name="roomType" type="text" value="${room.roomType }" /> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
 <td>用途</td>
-<td>居住</td>
-<td>房间用途默认为居住型</td>
+<td><select id="roomUse" name="roomUse">
+   <option value="居住">居住</option>
+   <option value="商业">商业</option>
+</select></td>
+<td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
 <td>建筑面积</td>
-<td><input name="roomArea" type="text" value="" /> </td>
-<td>请输入浮点数</td>
+<td><input name="roomArea" type="text" value="${room.roomArea }" /> </td>
+<td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
 <td>得房率</td>
-<td><input name="roomPercent" type="text" value="" /> </td>
-<td>请输入大于0小于1的浮点数</td>
+<td><input name="roomPercent" type="text" value="${room.roomPercent }" /> </td>
+<td>请输入中文，不得超过8位数</td>
 </tr>
-
+</tr>
 </tbody>
+
 <tfoot>
                <tr>
                  <td colspan="3">
@@ -177,7 +207,7 @@
                  </td>
               </tr>
 </tfoot>
-
+</input>
 </table>
 </div>
 </form>

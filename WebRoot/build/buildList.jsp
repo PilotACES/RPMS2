@@ -15,7 +15,7 @@
 <script src="js/information.js" type="text/javascript"></script>
 <script type="text/javascript">
   function getPage(){
-     var page='<%= request.getParameter("pageNum")%>'
+     var page='<%= request.getParameter("pageNum")%>';
      var select=document.getElementById("pagenumber");
      for(var i=0;i<select.options.length;i++){
         if(select.options[i].value==page){
@@ -184,7 +184,7 @@
 <tr>
                    <td colspan="7">
                       <h5>共${list.totalSize}条信息</h5>
-                        <h5>当前第1页</h5>
+                        <h5>当前第${list.currentPage}页</h5>
          <ul>                            <li><a href="build!list.action?pageNum=1">首页</a></li>
                             <li><a href="build!list.action?pageNum=${list.previous }">前页</a></li>
                             <li><a href="build!list.action?pageNum=${list.next }">后页</a></li>

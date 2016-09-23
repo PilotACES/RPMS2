@@ -201,12 +201,12 @@
    function room(){
    	var oChange = document.getElementById("pagenumber");
    	var init = oChange.value;
-   	window.location="RoomList.do?curpage="+init;
+   	window.location="room!List.action?pageNum="+init;
    }
     function roomsearch(){
    	var oChange = document.getElementById("pagenumber");
    	var init = oChange.value;
-   	window.location="RoomListSearch.do?curpage="+init;
+   	window.location="room!find.action?pageNum="+init;
    }
    function material(){
    	var oChange = document.getElementById("pagenumber");

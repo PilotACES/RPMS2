@@ -50,6 +50,10 @@ public class BuildService implements GeneralService {
 		this.generalDAO = generalDAO;
 	}
 	
+	public List<BuildDTO> getAll(){
+		return generalDAO.loadAll();
+	}
+	
 	
 
 }

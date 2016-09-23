@@ -1,7 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>角色管理</title>
 <style type="text/css" title="currentStyle" media="screen">
      @import url(../css/maincss1.css);
@@ -9,9 +12,23 @@
 </style>
 <script src="../js/valentine.js" type="text/javascript"></script>
 <script src="../js/information.js" type="text/javascript"></script>
+<script type="text/javascript">
+  var page='<%= request.getParameter("pageNum")%>';
+  function changeSelectedOption(){
+     var select=document.getElementById("pagenumber");
+     for(var i=0;i<select.options.length;i++){
+         var value=select.options[i].value;
+         if(value==page){
+            select.options[i].selected=true;
+            break;
+         }
+     }
+  }
+
+</script>
 </head>
 
-<body onload="startit();">
+<body onload="startit();changeSelectedOption();">
 <div id="icon">fourthfire</div>
 <div id="userinfo">
 <h5>欢迎</h5>
@@ -19,6 +36,13 @@
 <h5><a href="../Out.do">注销</a></h5>
 <h5><a href="../Out.do">退出</a></h5>
 <h5>现在时间</h5>
+<h5 id="year"></h5>
+<h5>年</h5>
+<h5 id="month"></h5>
+<h5>月</h5>
+<h5 id="day"></h5>
+<h5>日</h5>
+<h5 id="moreve"></h5>
 <h5 id="hours"></h5>
 <h5>:</h5>
 <h5 id="minutes"></h5>
@@ -115,72 +139,97 @@
 </ul>
 </div>
 <div id="main">
-<form name="form1" method="post" action="roomList.html" onsubmit="return checkroom()">
-<div id="index">
- </div>
+<form name="form1" method="post" action="room!find.action?pageNum=1" onsubmit="return checkkey()">
+<span class="style3">查询条件：</span>
+<select name="oneway">
+	<option value="0">请选择类型</option>
+	<option value="1">楼栋名</option>
+	<option value="2">房间名</option>
+	<option value="3">入住时间</option>
+	<option value="4">房型</option>
+	<option value="5">用途</option>
+	<option value="6">建筑面积</option>
+	<option value="7">得房率</option>
+</select> 
+<input type="text" name="onetext" value="请输入关键字" id="txt1" onfocus="selectText();"/> 
+<input type="submit" name="Submit" value="查询"/>
+</form>
+<form name="form2" method="post" action="room!delete.action" onsubmit="return befSubmit();">
 <div id="table">
-<table>
-<input type="hidden" name="roomId" value="${rdto.roomId }">
-<caption>房间修改</caption>
+<table id="ec_table">
+<caption>房间信息表</caption>
 <thead>
+<tr>
+<th>选中</th>
+<th onclick="sortTable('ec_table',1,'string')">楼栋名</th>
+<th onclick="sortTable('ec_table',2,'string')">房间名</th>
+<th onclick="sortTable('ec_table',3,'string')">入住时间</th>
+<th onclick="sortTable('ec_table',4,'string')">房型</th>
+<th onclick="sortTable('ec_table',5,'string')">用途</th>
+<th onclick="sortTable('ec_table',6,'float')">建筑面积</th>
+<th onclick="sortTable('ec_table',7,'float')">得房率</th>
+<th>修改</th>
+</tr>
 </thead>
 <tbody>
-<tr>
-<td>楼栋名</td>
-<td><select name="buildId" id="select">
-			
-				
-						<option value="" selected="selected"></option>
-					
-            </select> </td>
-<td>请输入中文，不得超过8位数</td>
-</tr>
-<tr>
-<td>房间名</td>
-<td><input name="roomName" type="text" value="" /> </td>
-<td>请输入中文，不得超过8位数</td>
-<tr>
-<td>入住时间</td>
-<td><input name="roomDate" type="text" value="" onfocus="show_cele_date(roomDate,'','',roomDate)"/> </td>
-<td>请输入中文，不得超过8位数</td>
-</tr>
-<tr>
-<td>房型</td>
-<td><input name="roomType" type="text" value="" /> </td>
-<td>请输入中文，不得超过8位数</td>
-</tr>
-<tr>
-<td>用途</td>
-<td></td>
-<td>请输入中文，不得超过8位数</td>
-</tr>
-<tr>
-<td>建筑面积</td>
-<td><input name="roomArea" type="text" value="" /> </td>
-<td>请输入中文，不得超过8位数</td>
-</tr>
-<tr>
-<td>得房率</td>
-<td><input name="roomPercent" type="text" value="" /> </td>
-<td>请输入中文，不得超过8位数</td>
-</tr>
-</tr>
-</tbody>
 
+<tr class="lightdown" onmousemove="this.className='lightup';" onmouseout="this.className='lightdown';">
+<c:forEach items="${list.date }" var="room">
+<td><input name="checkone" type="checkbox" value="${room.id}" /></td>
+<td>${room.build.buildName }</td>
+<td>${room.roomName }</td>
+<td>${room.roomDate }</td>
+<td>${room.roomType }</td>
+<td>${room.roomUse }</td>
+<td>${room.roomArea }</td>
+<td>${room.roomPercent }</td>
+
+<td><a href="room!update.action?id=${room.id }">edit</a></td>
+</c:forEach>
+	 
+
+
+</tr>
+
+
+</tbody>
 <tfoot>
+<tr>
+                   <td colspan="9">
+                      <h5>共5条信息</h5>
+                        <h5>当前第1页</h5>
+                        <ul>
+                            <li><a href="room!list.action?pageNum=1">首页</a></li>
+                            <li><a href="room!list.action?pageNum=${list.previous }">前页</a></li>
+                            <li><a href="room!list.action?pageNum=${list.next }">后页</a></li>
+                            <li><a href="room!list.action?pageNum=${list.last }">末页</a></li>
+                            <li><span>转到</span>
+                            <select name="pagenumber" id="pagenumber" onchange="room();">
+                            <c:forEach begin="1" end="${list.last }" step="1" var="item">
+                                   <option value="${item }">第${item }页</option>
+                                   </c:forEach>                            
+                            </select>
+                            </li>                      
+                        </ul>                  
+                        </td>
+               </tr>
                <tr>
-                 <td colspan="3">
+                 <td colspan="9">
                   <ul>
-                     <li><input name="addnews" type="submit" value="确定"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';" /></li>
-                     <li><input name="sumselect" type="reset" value="重置"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';" /></li>
-                  </ul>
+                   
+                     <li><input name="addnews" type="button" value="添加房间"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';" onclick="window.location='roomAdd.html'"/></li>
+                      <li><input name="sumselect" type="button" value="全部选择"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"  onclick="checkAll();"/></li>
+                     <li><input name="delete" type="submit" value="删除房间"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';" /></li>               
+					
+                     </ul>
                  </td>
               </tr>
 </tfoot>
-</input>
+
 </table>
 </div>
 </form>
+</div>
 </div>
 <div id="foot">
 <ul>
@@ -192,6 +241,6 @@
 </ul>
 
 </div>
-</div>
+
 </body>
 </html>
