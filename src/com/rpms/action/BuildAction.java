@@ -26,7 +26,7 @@ public class BuildAction extends ActionSupport{
 	
 	private SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 	
-	private static GeneralService buildService;
+	private GeneralService buildService;
 	
 	private String buildName;
 	
@@ -163,7 +163,7 @@ public class BuildAction extends ActionSupport{
 		return "delect";
 	}
 	
-	public static void delectObject(String s){
+	public void delectObject(String s){
 		BuildDTO build=(BuildDTO)buildService.get(Integer.parseInt(s));
 		buildService.delete(build);
 	}

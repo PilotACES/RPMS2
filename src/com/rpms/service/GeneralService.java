@@ -15,6 +15,8 @@ public interface GeneralService {
 	
 	public Object load(Integer id);
 	
+	public List getAll();
+	
 	public PageUtil fenye(int pageNum,int pageSize);
 	
 	public PageUtil fenyeByEntity(int pageNum,int pageSize,String propertyName,String propertyValue);

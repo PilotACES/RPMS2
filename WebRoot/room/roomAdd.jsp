@@ -7,15 +7,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>角色管理</title>
 <style type="text/css" title="currentStyle" media="screen">
-     @import url(../css/maincss1.css);
-	 @import url(../css/mainborder1.css);
+     @import url(css/maincss1.css);
+	 @import url(css/mainborder1.css);
 </style>
-<script src="../js/valentine.js" type="text/javascript"></script>
-<script src="../js/information.js" type="text/javascript"></script>
-<script type="text/javascript" src="/jquery-ui/jquery-ui.js"></script>
-<script type="text/javascript" src="/jquery-ui/external/jquery/jquery.js"></script>
-<script type="text/javascript" src="/js/datePicker.js"></script>
-<link href="/jquery-ui/jquery-ui.css" rel="stylesheet">
+<script src="js/valentine.js" type="text/javascript"></script>
+<script src="js/information.js" type="text/javascript"></script>
+<script type="text/javascript" src="jquery-ui/jquery-ui.js"></script>
+<script type="text/javascript" src="jquery-ui/external/jquery/jquery.js"></script>
+<script type="text/javascript" src="js/datePicker.js"></script>
+<link href="jquery-ui/jquery-ui.css" rel="stylesheet">
 </head>
 
 <body onload="startit();">
@@ -135,7 +135,7 @@
 <td>楼栋名</td>
 <td> <select id="buildId" name="buildId" >
      <option value="0" selected="selected">--请选择--</option>
-     <c:forEach items="${builds }" var="build">
+     <c:forEach items="${list }" var="build">
 	 <option value="${build.id }">${build.buildName }</option>
      </c:forEach>
      </select>    

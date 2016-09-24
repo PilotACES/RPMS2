@@ -51,7 +51,7 @@ public class BuildService implements GeneralService {
 	}
 	
 	public List<BuildDTO> getAll(){
-		return generalDAO.loadAll();
+		return generalDAO.find("from BuildDTO build order by build.id asc");
 	}
 	
 	

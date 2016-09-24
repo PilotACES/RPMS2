@@ -6,33 +6,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
+
 import com.opensymphony.xwork2.ActionSupport;
 import com.rpms.pojos.BuildDTO;
 import com.rpms.pojos.RoomDTO;
-import com.rpms.service.BuildService;
 import com.rpms.service.GeneralService;
 import com.rpms.utils.PageUtil;
 
-public class RoomAction extends ActionSupport{
+public class RoomAction extends ActionSupport {
 	
-	private static final String LIST="list";
+	private String sdfFormat="yyyy-mm-dd";
 	
-	private static final String FIND="find";
+	private int pageSize=5;
 	
-	private static final String ADD="add";
+	private GeneralService  buildService;
 	
-	private static final String UPDATE="update";
-	
-	private static final String DELETE="delete";
-	
-	private static final String READY="ready";
-	
-	private static final String READYADD="readyAdd";
-	
-	private String buildId;
+	private GeneralService  roomService;
 	
 	private String roomName;
 	
@@ -46,226 +39,46 @@ public class RoomAction extends ActionSupport{
 	
 	private String roomPercent;
 	
-	private static final String sdfFormat="yyyy-mm-dd";
-	
-	private GeneralService genericService;
-	
-	private final int pageSize=5;
-	
-	private String oneway;
-	
-	private String onetext;
-	
-	private String[] checkone;
-	
-	public String list(){
-		HttpServletRequest request=ServletActionContext.getRequest();
-		String page=request.getParameter("pageNum");
-		int currentPage;
-		if(page==null||page.equals("")){
-			currentPage=1;
-		}else{
-			currentPage=Integer.parseInt(page);
-		}
-		PageUtil pageUtil=genericService.fenye(currentPage, pageSize);
-		request.setAttribute("list", pageUtil);
-		return LIST;
-	}
-	
-	public String find(){
-		HttpServletRequest request = ServletActionContext.getRequest();
-		PageUtil pageUtil=null;
-		try {
-			request.setCharacterEncoding("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String page=request.getParameter("pageNum");
-		int currentPage;
-		if(page==null||page.equals("")){
-			currentPage=1;
-		}else{
-			currentPage=Integer.parseInt(page);
-		}
-		if(oneway.equals("0")){
-			pageUtil=genericService.fenye(currentPage, pageSize);
-			request.setAttribute("list", pageUtil);
-			return LIST;
-		}else if(oneway.equals("1")){
-			String propertyName="build.buildName";
-			String propertyValue=onetext;
-			pageUtil=genericService.fenyeByEntity(currentPage, pageSize, propertyName, propertyValue);
-			request.setAttribute("list", pageUtil);
-			return FIND;
-		}else if(oneway.equals("2")){
-			String propertyName="roomName";
-			String propertyValue=onetext;
-			pageUtil=genericService.fenyeByEntity(currentPage, pageSize, propertyName, propertyValue);
-			request.setAttribute("list", pageUtil);
-			return FIND;
-		}else if(oneway.equals("3")){
-			String propertyName="roomDate";
-			String propertyValue=onetext;
-			pageUtil=genericService.fenyeByEntity(currentPage, pageSize, propertyName, propertyValue);
-			request.setAttribute("list", pageUtil);
-			return FIND;
-		}else if(oneway.equals("4")){
-			String propertyName="roomType";
-			String propertyValue=onetext;
-			pageUtil=genericService.fenyeByEntity(currentPage, pageSize, propertyName, propertyValue);
-			request.setAttribute("list", pageUtil);
-			return FIND;
-		}else if(oneway.equals("5")){
-			String propertyName="roomUse";
-			String propertyValue=onetext;
-			pageUtil=genericService.fenyeByEntity(currentPage, pageSize, propertyName, propertyValue);
-			request.setAttribute("list", pageUtil);
-			return FIND;
-		}else if(oneway.equals("6")){
-			String propertyName="roomArea";
-			String propertyValue=onetext;
-			pageUtil=genericService.fenyeByEntity(currentPage, pageSize, propertyName, propertyValue);
-			request.setAttribute("list", pageUtil);
-			return FIND;
-		}else if(oneway.equals("7")){
-			String propertyName="roomPercent";
-			String propertyValue=onetext;
-			pageUtil=genericService.fenyeByEntity(currentPage, pageSize, propertyName, propertyValue);
-			request.setAttribute("list", pageUtil);
-			return FIND;
-		}else{
-			return INPUT;
-		}
-	}
-	
-	public String readyAdd(){
-		try {
-			HttpServletRequest request=ServletActionContext.getRequest();
-			List<BuildDTO> builds=new BuildService().getAll();
-			request.setCharacterEncoding("UTF-8");
-			request.setAttribute("builds", builds);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return READYADD;
-	}
-	
-	public String add(){
-		try {
-			if(buildId!=null||buildId.equals("")==false||buildId.equals("0")==false){
-			BuildDTO build=(BuildDTO) new BuildService().get(Integer.parseInt(buildId));
-			SimpleDateFormat sdf=new SimpleDateFormat(sdfFormat);
-			Date date=sdf.parse(roomDate);
-			RoomDTO room=new RoomDTO(0, roomName, date, roomType, roomUse, Float.parseFloat(roomArea), Float.parseFloat(roomPercent));
-			genericService.add(room);
-			}else{
-				return INPUT;
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		return ADD;
-	}
-	
-	public String ready() {
-		HttpServletRequest request=ServletActionContext.getRequest();
-		try {
-			request.setCharacterEncoding("utf-8");
-			String para=request.getParameter("id");
-			int id;
-			if(para==null||para.equals("")){
-				return ERROR;
-			}else{
-				id=Integer.parseInt(para);
-			}
-			List<BuildDTO> builds=new BuildService().getAll();
-			RoomDTO room=(RoomDTO)genericService.get(id);
-			request.setAttribute("builds", builds);
-			request.setAttribute("room", room);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return READY;
-	}
-	
-	public String update() throws UnsupportedEncodingException, ParseException {
+	public String addBuildList() throws UnsupportedEncodingException{
+		List list=buildService.getAll();
 		HttpServletRequest request=ServletActionContext.getRequest();
 		request.setCharacterEncoding("utf-8");
-		int id;
-		String para = request.getParameter("id");
-		if(para==null||para.equals("")){
-			return ERROR;
-		}else{
-			id=Integer.parseInt(para);
-		}
-		if(buildId!=null||buildId.equals("")==false||buildId.equals("0")==false){
-		BuildDTO build=(BuildDTO) new BuildService().get(Integer.parseInt(buildId));
+		request.setAttribute("list", list);
+		return "type";
+	}
+	
+	public String add() throws ParseException{
+		HttpServletRequest request=ServletActionContext.getRequest();
+		int buildId=Integer.parseInt(request.getParameter("buildId"));
+		BuildDTO build=(BuildDTO) buildService.get(buildId);
 		SimpleDateFormat sdf=new SimpleDateFormat(sdfFormat);
-		Date date=sdf.parse(roomDate);
-		RoomDTO room=(RoomDTO)genericService.get(id);
+		RoomDTO room=new RoomDTO(1, roomName, sdf.parse(roomDate), roomType, roomUse, Float.parseFloat(roomArea), Float.parseFloat(roomPercent));
 		room.setBuild(build);
-		room.setRoomName(roomName);
-		room.setRoomDate(date);
-		room.setRoomType(roomType);
-		room.setRoomUse(roomUse);
-		room.setRoomArea(Float.parseFloat(roomArea));
-		room.setRoomPercent(Float.parseFloat(roomPercent));
-		genericService.update(room);
+		roomService.add(room);
+		return "add";
+	}
+	
+	public String list() throws UnsupportedEncodingException{
+		HttpServletRequest request=ServletActionContext.getRequest();
+		request.setCharacterEncoding("utf-8");
+		int pageNum;
+		String num=request.getParameter("pageNum");
+		if(num==null||num.equals("")){
+			pageNum=1;
 		}else{
-			return INPUT;
+			pageNum=Integer.parseInt(num);
 		}
-		return UPDATE;
-	}
-	
-	public String delete(){
-		if(checkone!=null){
-			for(String check:checkone){
-				int id=Integer.parseInt(check);
-				deleteObject(id);
-			}
-		}
-		return DELETE;
-	}
-	
-	public void deleteObject(Integer id){
-		RoomDTO room=(RoomDTO)genericService.get(id);
-		genericService.delete(room);
+		PageUtil page=roomService.fenye(pageNum, pageSize);
+		request.setAttribute("list", page);
+		return "list";
 	}
 
-	public GeneralService getGenericService() {
-		return genericService;
+	public GeneralService getBuildService() {
+		return buildService;
 	}
 
-	public void setGenericService(GeneralService genericService) {
-		this.genericService = genericService;
-	}
-
-	public String getOneway() {
-		return oneway;
-	}
-
-	public void setOneway(String oneway) {
-		this.oneway = oneway;
-	}
-
-	public String getOnetext() {
-		return onetext;
-	}
-
-	public void setOnetext(String onetext) {
-		this.onetext = onetext;
-	}
-
-	public String getBuildId() {
-		return buildId;
-	}
-
-	public void setBuildId(String buildId) {
-		this.buildId = buildId;
+	public void setBuildService(GeneralService buildService) {
+		this.buildService = buildService;
 	}
 
 	public String getRoomName() {
@@ -292,6 +105,14 @@ public class RoomAction extends ActionSupport{
 		this.roomType = roomType;
 	}
 
+	public String getRoomUse() {
+		return roomUse;
+	}
+
+	public void setRoomUse(String roomUse) {
+		this.roomUse = roomUse;
+	}
+
 	public String getRoomArea() {
 		return roomArea;
 	}
@@ -308,22 +129,13 @@ public class RoomAction extends ActionSupport{
 		this.roomPercent = roomPercent;
 	}
 
-	public String getRoomUse() {
-		return roomUse;
+	public GeneralService getRoomService() {
+		return roomService;
 	}
 
-	public void setRoomUse(String roomUse) {
-		this.roomUse = roomUse;
+	public void setRoomService(GeneralService roomService) {
+		this.roomService = roomService;
 	}
-
-	public String[] getCheckone() {
-		return checkone;
-	}
-
-	public void setCheckone(String[] checkone) {
-		this.checkone = checkone;
-	}
-
 	
 	
 }
