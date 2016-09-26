@@ -7,11 +7,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>角色管理</title>
 <style type="text/css" title="currentStyle" media="screen">
-     @import url(../css/maincss1.css);
-	 @import url(../css/mainborder1.css);
+     @import url(css/maincss1.css);
+	 @import url(css/mainborder1.css);
 </style>
-<script src="../js/valentine.js" type="text/javascript"></script>
-<script src="../js/information.js" type="text/javascript"></script>
+<script src="js/valentine.js" type="text/javascript" charset="gb2312"></script>
+<script src="js/information.js" type="text/javascript"></script>
 <script type="text/javascript">
   var page='<%= request.getParameter("pageNum")%>';
   function changeSelectedOption(){
@@ -172,9 +172,8 @@
 </tr>
 </thead>
 <tbody>
-
-<tr class="lightdown" onmousemove="this.className='lightup';" onmouseout="this.className='lightdown';">
 <c:forEach items="${list.date }" var="room">
+<tr class="lightdown" onmousemove="this.className='lightup';" onmouseout="this.className='lightdown';">
 <td><input name="checkone" type="checkbox" value="${room.id}" /></td>
 <td>${room.build.buildName }</td>
 <td>${room.roomName }</td>
@@ -184,19 +183,15 @@
 <td>${room.roomArea }</td>
 <td>${room.roomPercent }</td>
 
-<td><a href="room!update.action?id=${room.id }">edit</a></td>
-</c:forEach>
-	 
-
-
+<td><a href="room!readyUpdate.action?id=${room.id }">edit</a></td>
 </tr>
-
+</c:forEach>
 
 </tbody>
 <tfoot>
 <tr>
                    <td colspan="9">
-                      <h5>共5条信息</h5>
+                      <h5>共${list.totalSize}条信息</h5>
                         <h5>当前第1页</h5>
                         <ul>
                             <li><a href="room!list.action?pageNum=1">首页</a></li>
@@ -217,7 +212,7 @@
                  <td colspan="9">
                   <ul>
                    
-                     <li><input name="addnews" type="button" value="添加房间"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';" onclick="window.location='roomAdd.html'"/></li>
+                     <li><input name="addnews" type="button" value="添加房间"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';" onclick="window.location='room!addBuildList.action'"/></li>
                       <li><input name="sumselect" type="button" value="全部选择"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"  onclick="checkAll();"/></li>
                      <li><input name="delete" type="submit" value="删除房间"  class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';" /></li>               
 					

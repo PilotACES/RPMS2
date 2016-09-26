@@ -10,12 +10,22 @@
      @import url(css/maincss1.css);
 	 @import url(css/mainborder1.css);
 </style>
-<script src="js/valentine.js" type="text/javascript"></script>
-<script src="js/information.js" type="text/javascript"></script>
-<script type="text/javascript" src="jquery-ui/jquery-ui.js"></script>
-<script type="text/javascript" src="jquery-ui/external/jquery/jquery.js"></script>
-<script type="text/javascript" src="js/datePicker.js"></script>
+<script src="js/valentine.js" type="text/javascript" charset="gb2312"></script>
+<script src="js/information.js" type="text/javascript" charset="gb2312"></script>
 <link href="jquery-ui/jquery-ui.css" rel="stylesheet">
+<script type="text/javascript" src="jquery-ui/external/jquery/jquery.js"></script>
+<script type="text/javascript" src="jquery-ui/jquery-ui.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+   $("#roomDate").datepicker({
+		altFormat:'yy-mm-dd',
+		dateFormat:'yy-mm-dd',
+		firstDay:1,
+		changeMonth:true,
+		changeYear:true
+	});
+  });
+</script>
 </head>
 
 <body onload="startit();">
@@ -26,6 +36,13 @@
 <h5><a href="../Out.do">注销</a></h5>
 <h5><a href="../Out.do">退出</a></h5>
 <h5>现在时间</h5>
+<h5 id="year"></h5>
+<h5>年</h5>
+<h5 id="month"></h5>
+<h5>月</h5>
+<h5 id="day"></h5>
+<h5>日</h5>
+<h5 id="moreve"></h5>
 <h5 id="hours"></h5>
 <h5>:</h5>
 <h5 id="minutes"></h5>

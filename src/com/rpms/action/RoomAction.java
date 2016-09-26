@@ -19,13 +19,15 @@ import com.rpms.utils.PageUtil;
 
 public class RoomAction extends ActionSupport {
 	
-	private String sdfFormat="yyyy-mm-dd";
+	private String sdfFormat="yyyy-MM-dd";
 	
 	private int pageSize=5;
 	
 	private GeneralService  buildService;
 	
 	private GeneralService  roomService;
+	
+	private String buildId;
 	
 	private String roomName;
 	
@@ -51,6 +53,7 @@ public class RoomAction extends ActionSupport {
 		HttpServletRequest request=ServletActionContext.getRequest();
 		int buildId=Integer.parseInt(request.getParameter("buildId"));
 		BuildDTO build=(BuildDTO) buildService.get(buildId);
+		System.out.println(build.getBuildName());
 		SimpleDateFormat sdf=new SimpleDateFormat(sdfFormat);
 		RoomDTO room=new RoomDTO(1, roomName, sdf.parse(roomDate), roomType, roomUse, Float.parseFloat(roomArea), Float.parseFloat(roomPercent));
 		room.setBuild(build);
@@ -71,6 +74,122 @@ public class RoomAction extends ActionSupport {
 		PageUtil page=roomService.fenye(pageNum, pageSize);
 		request.setAttribute("list", page);
 		return "list";
+	}
+	
+	public String readyUpdate() throws UnsupportedEncodingException{
+		HttpServletRequest request=ServletActionContext.getRequest();
+		request.setCharacterEncoding("utf-8");
+		int id;
+		String updateId=request.getParameter("id");
+		if(updateId==null||updateId.equals("")){
+			id=1;
+		}else{
+			id=Integer.parseInt(updateId);
+		}
+		RoomDTO room=(RoomDTO)roomService.get(id);
+		List list=buildService.getAll();
+		request.setAttribute("room", room);
+		request.setAttribute("builds", list);
+		return "readyUpdate";
+	}
+	
+	public String update() throws UnsupportedEncodingException, ParseException{
+		BuildDTO build=null;
+		HttpServletRequest request=ServletActionContext.getRequest();
+		request.setCharacterEncoding("utf-8");
+		String roomId=request.getParameter("id");
+		System.out.println(roomId+"-------"+roomId);
+		int id;
+		if(roomId==null||roomId.equals("")){
+			return ERROR;
+		}else{
+			id=Integer.parseInt(roomId);
+		}
+		if(buildId==null||buildId.equals("")){
+			return ERROR;
+		}else{
+			build=(BuildDTO) buildService.get(Integer.parseInt(buildId));
+		}
+		SimpleDateFormat sdf=new SimpleDateFormat(sdfFormat);
+		RoomDTO room=new RoomDTO(id, roomName, sdf.parse(roomDate), roomType, roomUse, Float.parseFloat(roomArea), Float.parseFloat(roomPercent));
+		room.setBuild(build);
+		roomService.update(room);
+		return "update";
+	}
+	
+	public String delete() throws UnsupportedEncodingException{
+		HttpServletRequest request= ServletActionContext.getRequest();
+		request.setCharacterEncoding("utf-8");
+		String paraId=request.getParameter("checkone");
+		int id;
+		if(paraId==null||paraId.equals("")){
+			return ERROR;
+		}else{
+			id=Integer.parseInt(paraId);
+			roomService.delete(id);
+		}
+		return "delete";
+	}
+	
+	public String advance() throws UnsupportedEncodingException{
+		PageUtil page=null;
+		String propertyName=null;
+		HttpServletRequest request=ServletActionContext.getRequest();
+		request.setCharacterEncoding("utf-8");
+		String num=request.getParameter("pageNum");
+		String select=request.getParameter("oneway");
+		String onetext=request.getParameter("onetext");
+		int pageNum;
+		if(num==null||num.equals("")){
+			pageNum=1;
+		}else{
+			pageNum=Integer.parseInt(num);
+		}
+		if(select!=null||select.equals("")){
+			int oneway=Integer.parseInt(select);
+			switch(oneway){
+			case 0:
+				page=roomService.fenye(pageNum, pageSize);
+				request.setAttribute("list", page);
+				break;
+			case 1:
+				propertyName="build.buildName";
+				page=roomService.fenyeByEntity(pageNum, pageSize, propertyName, onetext);
+				request.setAttribute("list", page);
+				break;
+			case 2:
+				propertyName="roomName";
+				page=roomService.fenyeByEntity(pageNum, pageSize, propertyName, onetext);
+				request.setAttribute("list", page);
+				break;
+			case 3:
+				propertyName="roomDate";
+				page=roomService.fenyeByEntity(pageNum, pageSize, propertyName, onetext);
+				request.setAttribute("list", page);
+				break;
+			case 4:
+				propertyName="roomType";
+				page=roomService.fenyeByEntity(pageNum, pageSize, propertyName, onetext);
+				request.setAttribute("list", page);
+				break;
+			case 5:
+				propertyName="roomUse";
+				page=roomService.fenyeByEntity(pageNum, pageSize, propertyName, onetext);
+				request.setAttribute("list", page);
+				break;
+			case 6:
+				propertyName="roomArea";
+				page=roomService.fenyeByEntity(pageNum, pageSize, propertyName, onetext);
+				request.setAttribute("list", page);
+				break;
+			case 7:
+				propertyName="roomPercent";
+				page=roomService.fenyeByEntity(pageNum, pageSize, propertyName, onetext);
+				request.setAttribute("list", page);
+				break;
+			}
+		}
+		return "search";
 	}
 
 	public GeneralService getBuildService() {
@@ -136,6 +255,15 @@ public class RoomAction extends ActionSupport {
 	public void setRoomService(GeneralService roomService) {
 		this.roomService = roomService;
 	}
+
+	public String getBuildId() {
+		return buildId;
+	}
+
+	public void setBuildId(String buildId) {
+		this.buildId = buildId;
+	}
+	
 	
 	
 }

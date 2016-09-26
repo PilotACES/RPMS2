@@ -40,7 +40,7 @@
 			<one-to-many class="RoomOwner" />
 		</set>
 		<many-to-one name="build" class="BuildDTO" column="build_id"
-			cascade="all" />
+			cascade="all" lazy="false" fetch="join"/>
 	</class>
 	<class name="OwnerDTO" table="tb_owner">
 		<id name="id" column="owner_id">

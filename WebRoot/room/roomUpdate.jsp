@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" import="java.util.*,com.rpms.pojos.*" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,27 +7,56 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>角色管理</title>
 <style type="text/css" title="currentStyle" media="screen">
-     @import url(../css/maincss1.css);
-	 @import url(../css/mainborder1.css);
+     @import url(css/maincss1.css);
+	 @import url(css/mainborder1.css);
 </style>
-<script src="../js/valentine.js" type="text/javascript"></script>
-<script src="../js/information.js" type="text/javascript"></script>
+<script src="js/valentine.js" type="text/javascript" charset="gb2312"></script>
+<script src="js/information.js" type="text/javascript" charset="gb2312"></script>
+<link href="jquery-ui/jquery-ui.css" rel="stylesheet">
+<script type="text/javascript" src="jquery-ui/external/jquery/jquery.js"></script>
+<script type="text/javascript" src="jquery-ui/jquery-ui.js"></script>
 <script type="text/javascript">
-    var use='<%= request.getAttribute("room")%>';
-    function showUseType(){
+    <% 
+        RoomDTO room = (RoomDTO)request.getAttribute("room");
+        BuildDTO build = room.getBuild();
+    %>;
+    var roomUse='<%= room.getRoomUse()%>';
+    var buildId='<%= build.getId()%>';
+    function showUse(){
         var select=document.getElementById("roomUse");
         for(var i=0;i<select.options.length;i++){
             var value=select.options[i].value;
-            if(value==use.roomType){
+            if(value==roomUse){
                 select.options[i].selected=true;
                 break;
             }
         }
     }
+    
+    function showBuild(){
+        var select=document.getElementById("select");
+        for(var i=0;i<select.options.length;i++){
+            var value=select.options[i].value;
+            if(value==buildId){
+                select.options[i].selected=true;
+                break;
+            }
+        }
+    }
+    
+    $(document).ready(function(){
+        $("#roomDate").datepicker({
+            altFormat:'yy-mm-dd',
+            dateFormat:'yy-mm-dd',
+            firstDay:1,
+            changeMonth:true,
+            changeYear:true
+        });
+    });
 </script>
 </head>
 
-<body onload="startit();showUseType();">
+<body onload="startit();showUse();showBuild()">
 <div id="icon">fourthfire</div>
 <div id="userinfo">
 <h5>欢迎</h5>
@@ -159,21 +188,21 @@
 </tr>
 <tr>
 <td>房间编号</td>
-<td><input type="text" disabled="disabled" readonly="readonly" id="roomId" name="roomId" value="${room.id }"></td>
+<td><input type="text" disabled="disabled" id="roomId" name="roomId" value="${room.id }"></td>
 <td></td>
 </tr>
 <tr>
 <td>房间名</td>
-<td><input name="roomName" type="text" value="${room.roomName }" /> </td>
+<td><input id="roomName" name="roomName" type="text" value="${room.roomName }" /> </td>
 <td>请输入中文，不得超过8位数</td>
 <tr>
 <td>入住时间</td>
-<td><input name="roomDate" type="text" value="${room.roomDate }" onfocus="show_cele_date(roomDate,'','',roomDate)"/> </td>
+<td><input id="roomDate" name="roomDate" type="text" value="${room.roomDate }" /> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
 <td>房型</td>
-<td><input name="roomType" type="text" value="${room.roomType }" /> </td>
+<td><input id="roomType" name="roomType" type="text" value="${room.roomType }" /> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
@@ -186,12 +215,12 @@
 </tr>
 <tr>
 <td>建筑面积</td>
-<td><input name="roomArea" type="text" value="${room.roomArea }" /> </td>
+<td><input id="roomArea" name="roomArea" type="text" value="${room.roomArea }" /> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 <tr>
 <td>得房率</td>
-<td><input name="roomPercent" type="text" value="${room.roomPercent }" /> </td>
+<td><input id="roomPercent" name="roomPercent" type="text" value="${room.roomPercent }" /> </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
 </tr>

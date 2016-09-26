@@ -18,13 +18,5 @@ $(document).ready(function(){
 	    }
 	});
 	
-	$("#roomDate").datepicker({
-		altFormat:'yy-mm-dd',
-		dateFormat:'yy-mm-dd',
-		firstDay:1,
-		changeMonth:true,
-		changeYear:true
-	});
-	    
 }
 		);

@@ -34,6 +34,16 @@
 				<param name="method">list</param>
 			</result>
 			<result name="list">/room/roomList.jsp</result>
+			<result name="readyUpdate">/room/roomUpdate.jsp</result>
+			<result name="update" type="chain">
+				<param name="actionName">room</param>
+				<param name="method">list</param>
+			</result>
+			<result name="delete" type="chain">
+				<param name="actionName">room</param>
+				<param name="method">list</param>
+			</result>
+			<result name="search">/room/roomSearchList.jsp</result>
 		</action>
 	</package>
 </struts>
