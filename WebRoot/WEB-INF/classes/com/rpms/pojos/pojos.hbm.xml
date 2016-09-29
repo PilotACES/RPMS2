@@ -119,9 +119,9 @@
 			<generator class="native" />
 		</id>
 		<many-to-one name="role" class="RolesDTO" column="role_id"
-			cascade="all" />
+			cascade="all" lazy="false" fetch="join"/>
 		<many-to-one name="power" class="PowerDTO" column="power_id"
-			cascade="all" />
+			cascade="all" lazy="false" fetch="join" />
 	</class>
 	<class name="UserDTO" table="tb_user">
 		<id name="id" column="user_id">
@@ -132,7 +132,7 @@
 		<one-to-one name="owner" class="com.rpms.pojos.OwnerDTO"
 			constrained="true" />
 		<many-to-one name="roles" class="RolesDTO" column="roles_id"
-			cascade="all" />
+			cascade="all" lazy="false" fetch="join"/>
 	</class>
 	<class name="ChargeDTO" table="tb_charge">
 		<id name="id" column="charge_id">
