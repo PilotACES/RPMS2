@@ -154,7 +154,7 @@ public class RoomAction extends ActionSupport {
 				break;
 			case 1:
 				propertyName="build.buildName";
-				page=roomService.fenyeByEntity(pageNum, pageSize, propertyName, onetext);
+				page=roomService.fenyeManyToOne(pageNum, pageSize, propertyName, onetext);
 				request.setAttribute("list", page);
 				break;
 			case 2:

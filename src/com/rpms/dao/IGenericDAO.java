@@ -55,6 +55,8 @@ public interface IGenericDAO<T extends Serializable, PK extends Serializable> {
 	public PageUtil fenye(int pageNum, int pageSize);
 	
 	public PageUtil fenyeEqualByEntity(int pageNum,int pageSize,String propertyName,String propertyValue);
+	
+	public PageUtil fenyeManyToOne(int pageNum,int pageSize,String propertyName,String propertyValue);
 
 	// 使用指定的实体及属性检索（满足除主键外属性＝实体值）数据
 	public List<T> findEqualByEntity(T entity, String[] propertyNames);

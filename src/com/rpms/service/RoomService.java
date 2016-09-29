@@ -55,5 +55,11 @@ public class RoomService implements GeneralService {
 	public void setRoomQuery(IGenericDAO<RoomDTO, Integer> roomQuery) {
 		this.roomQuery = roomQuery;
 	}
+
+	public PageUtil fenyeManyToOne(int pageNum, int pageSize,
+			String propertyName, String propertyValue) {
+		// TODO Auto-generated method stub
+		return roomQuery.fenyeManyToOne(pageNum, pageSize, propertyName, propertyValue);
+	}
 	
 }

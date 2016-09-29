@@ -18,6 +18,7 @@ import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 import com.rpms.dao.IGenericDAO;
 import com.rpms.utils.PageUtil;
+import com.sun.xml.internal.fastinfoset.sax.Properties;
 
 public class genericHibernateDAO<T extends Serializable, PK extends Serializable>
 extends HibernateDaoSupport implements IGenericDAO<T, PK> {
@@ -107,6 +108,25 @@ extends HibernateDaoSupport implements IGenericDAO<T, PK> {
 		PageUtil page=new PageUtil(pageSize, pageNum, totalNum, totalPage, first, previous, next, last, date);
 		return page;
 	}
+	
+	public PageUtil fenyeManyToOne(int pageNum,int pageSize,String propertyName,String propertyValue){
+		String[] names=propertyName.split("\\.");
+		System.out.println(names.length);
+		DetachedCriteria criteria=createDetachedCriteria().createAlias(names[0], "a");
+		int totalNum=getRowCount(criteria.add(Restrictions.eq("a."+names[1], propertyValue)));
+		int totalPage=(int)Math.ceil((double)totalNum/pageSize);
+		int first=1;
+		int previous=pageNum>0?pageNum-1:pageNum;
+		int next=pageNum<totalPage?pageNum+1:pageNum;
+		int last=totalPage;
+		DetachedCriteria result=createDetachedCriteria().createAlias(names[0], "a");
+		Criterion criterion=Restrictions.eq("a."+names[1], propertyValue);
+		result.add(criterion);
+		List date=this.findByCriteria(result, pageSize*(pageNum-1), pageSize);
+		PageUtil page=new PageUtil(pageSize, pageNum, totalNum , totalPage, first, previous, next, last, date);
+		return page;
+	}
+
 
 	public PageUtil fenyeEqualByEntity(int pageNum,int pageSize, String propertyName, String propertyValue) {
 		int totalNum=getRowCount(createDetachedCriteria().add(Restrictions.eq(propertyName, propertyValue)));
@@ -178,6 +198,5 @@ extends HibernateDaoSupport implements IGenericDAO<T, PK> {
 	public Criteria createCriteria() {
 		return this.createDetachedCriteria().getExecutableCriteria(this.getSessionFactory().getCurrentSession());
 	}
-
-
+	
 }

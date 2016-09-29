@@ -53,7 +53,11 @@ public class BuildService implements GeneralService {
 	public List<BuildDTO> getAll(){
 		return generalDAO.find("from BuildDTO build order by build.id asc");
 	}
-	
-	
 
+	public PageUtil fenyeManyToOne(int pageNum, int pageSize,
+			String propertyName, String propertyValue) {
+		// TODO Auto-generated method stub
+		return generalDAO.fenyeManyToOne(pageNum, pageSize, propertyName, propertyValue);
+	}
+	
 }

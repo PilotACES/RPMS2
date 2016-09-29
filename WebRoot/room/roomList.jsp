@@ -11,7 +11,10 @@
 	 @import url(css/mainborder1.css);
 </style>
 <script src="js/valentine.js" type="text/javascript" charset="gb2312"></script>
-<script src="js/information.js" type="text/javascript"></script>
+<script src="js/information.js" type="text/javascript" charset="gb2312"></script>
+<link href="jquery-ui/jquery-ui.css" rel="stylesheet">
+<script type="text/javascript" src="jquery-ui/external/jquery/jquery.js"></script>
+<script type="text/javascript" src="jquery-ui/jquery-ui.js"></script>
 <script type="text/javascript">
   var page='<%= request.getParameter("pageNum")%>';
   function changeSelectedOption(){
@@ -23,6 +26,23 @@
             break;
          }
      }
+  }
+  
+  function addDatePicker(){
+      var select=document.getElementsByName("oneway");
+      var text=document.getElementsByName("onetext");
+      if(select[0].value=="3"){
+          text[0].id="roomDate";
+          $("#roomDate").datepicker({
+            altFormat:'yy-mm-dd',
+            dateFormat:'yy-mm-dd',
+            firstDay:1,
+            changeMonth:true,
+            changeYear:true
+        });
+      }else{
+          $("roomDate").datepicker('hide',1);
+      }
   }
 
 </script>
@@ -139,9 +159,9 @@
 </ul>
 </div>
 <div id="main">
-<form name="form1" method="post" action="room!find.action?pageNum=1" onsubmit="return checkkey()">
+<form name="form1" method="post" action="room!advance.action?pageNum=1" onsubmit="return checkkey()">
 <span class="style3">查询条件：</span>
-<select name="oneway">
+<select name="oneway" onchange="addDatePicker();">
 	<option value="0">请选择类型</option>
 	<option value="1">楼栋名</option>
 	<option value="2">房间名</option>
@@ -151,7 +171,7 @@
 	<option value="6">建筑面积</option>
 	<option value="7">得房率</option>
 </select> 
-<input type="text" name="onetext" value="请输入关键字" id="txt1" onfocus="selectText();"/> 
+<input type="text" name="onetext" value="请输入关键字"/> 
 <input type="submit" name="Submit" value="查询"/>
 </form>
 <form name="form2" method="post" action="room!delete.action" onsubmit="return befSubmit();">
