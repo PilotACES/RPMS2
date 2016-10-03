@@ -1,18 +1,33 @@
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>角色管理</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>角色查询</title>
 <style type="text/css" title="currentStyle" media="screen">
-     @import url(../css/maincss1.css);
-	 @import url(../css/mainborder1.css);
+     @import url(css/maincss1.css);
+	 @import url(css/mainborder1.css);
 </style>
-<script src="../js/valentine.js" type="text/javascript"></script>
-<script src="../js/information.js" type="text/javascript"></script>
+<script src="js/valentine.js" type="text/javascript" charset="gb2312"></script>
+<script src="js/information.js" type="text/javascript" charset="gb2312"></script>
+<script type="text/javascript">
+    function getPage(){
+        var pageNum=<%=request.getParameter("pageNum")%>
+        var select=document.getElementById("pagenumber");
+        for(var i=0;i<select.options.length;i++){
+            var value=select.options[i].value;
+            if(value==pageNum){
+                select.options[i].selected=true;
+                break;
+            }
+        }
+    }
+</script>
 </head>
 
-<body onload="startit();">
+<body onload="startit();getPage();">
 <div id="icon">fourthfire</div>
 <div id="userinfo">
 <h5>欢迎</h5>
@@ -36,7 +51,7 @@
 <li class="bannerli" onmouseover="show(1);"><h5><a href="#">管理员管理</a></h5>
 <ul class="bannerchild" id="banner1">
 <li><a href="../role/roleList.html">角色管理</a></li>
-<li><a href="../power/PowerList.html">权限管理</a></li>
+<li><a href="../power/PowerList.do">权限管理</a></li>
 <li><a href="../rp/rolePowerList.html">角色权限管理</a></li>
 <li><a href="../user/userList.html">用户管理</a></li>
 <li><a href="../backup/backup.html">数据管理</a></li>
@@ -116,58 +131,62 @@
 </ul>
 </div>
 <div id="main">
-<form name="form1" method="post" action="powerSearchList.html" onsubmit="return checkkey()">
+<form name="form1" method="post" action="role!advance?pageNum=1" onsubmit="return checkkey()">
 <div id="index">
 <span class="style3">查询条件：</span>
 <select name="oneway">
 	<option value="0" selected="selected">--请选择--</option>
-	<option value="1">按权限名</option>
+	<option value="1">按角色名</option>
 </select> 
 <input type="text" name="onetext" value="请输入关键字" id="txt1" onfocus="selectText();"/> 
 <input type="submit" name="Submit" value="查询"/>
  </div>
 </form>
-<form name="form2" method="post" action="#" onsubmit="return befSubmit();">
+<form name="form2" method="post" action="role!delete" onsubmit="return befSubmit();">
 <div id="table">
 <table id="ec_table">
-<caption>权限信息表</caption>
+<caption>角色信息表</caption>
 <thead>
 <tr>
 <th>选中</th>
-<th onclick="sortTable('ec_table',1,'string')">权限名</th>
+<th onclick="sortTable('ec_table',1,'string')">角色名</th>
 <th>修改</th>
 </tr>
 </thead>
 <tbody>
+<c:forEach items="${list.date }" var="role">
 <tr class="lightdown" onmousemove="this.className='lightup';" onmouseout="this.className='lightdown';">
-<td><input name="checkone" type="checkbox" value="${dto.powerId}"/></td>
-<td>${dto.powerName}</td>
-<td><a href="powerUpdate.html">edit</a></td>
+<td><input name="checkone" type="checkbox" value="${role.id}"/></td>
+<td>${role.roleName }</td>
+<td><a href="role!readyUpdate?id=${role.id }">edit</a></td>
 </tr>
+</c:forEach>
 </tbody>
 <tfoot>
 <tr>
             <td colspan="3">
-                      <h5>共4条信息</h5>
-                        <h5>当前第1页</h5>
-         <ul>                            <li>首页</li>
-                            <li>前页</li>
-                            <li>后页</li>
-                            <li>末页</li>              
+                      <h5>共${list.totalSize }条信息</h5>
+                        <h5>当前第${list.currentPage }页</h5>
+                        <ul>
+                            <li><a href="role!advance?pageNum=${list.first }">首页</a></li>
+                            <li><a href="role!advance?pageNum=${list.previous }">前页</a></li>
+                            <li><a href="role!advance?pageNum=${list.next }">后页</a></li>
+                            <li><a href="role!advance?pageNum=${list.last }">末页</a></li>
                             <li><span>转到</span>
-                            <select name="" id="pagenumber" onchange="build();">                              
-                                  <option value="">第1页</option>                                                           
+                            <select name="" id="pagenumber" onchange="rolesearch();">
+                            <c:forEach begin="1" end="${list.last }" step="1" var="item">
+                                   <option value="${item }">第${item }页</option>
+                            </c:forEach>                            
                             </select>
-                            </li>
-                         
-                        </ul>                
+                            </li>                      
+                        </ul>                   
               </td>
             </tr>
                <tr>
                  <td colspan="3">
                   <ul>
-                     <li><input name="add" type="button" value="添加权限" onclick="window.location='powerAdd.html'" class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"/></li>
-                     <li><input name="delete" type="submit" value="删除权限" class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"/></li>
+                     <li><input name="addRoles" type="button" value="添加角色" onclick="window.location='role/roleAdd.html'" class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"/></li>
+                     <li><input name="delete" type="submit" value="删除角色" class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"/></li>
                   </ul>  
                  </td>
               </tr>
@@ -177,7 +196,6 @@
 </form>
 </div>
 </div>
-
 <div id="foot">
 <ul>
 <li><a href="../welcome.html">首页</a></li>
@@ -186,8 +204,6 @@
 <li><a href="../about.html">关于我们</a></li>
 <li><a href="../onlinehelp.jsp">在线帮助</a></li>
 </ul>
-
 </div>
-
 </body>
 </html>

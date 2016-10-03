@@ -45,5 +45,39 @@
 			</result>
 			<result name="search">/room/roomSearchList.jsp</result>
 		</action>
+		<action name="power" class="powerAction">
+			<result name="list">/power/powerList.jsp</result>
+			<result name="add" type="chain">
+				<param name="actionName">power</param>
+				<param name="method">list</param>
+			</result>
+			<result name="ready">/power/powerUpdate.jsp</result>
+			<result name="update" type="chain">
+				<param name="actionName">power</param>
+				<param name="method">list</param>
+			</result>
+			<result name="delete" type="chain">
+				<param name="actionName">power</param>
+				<param name="method">list</param>
+			</result>
+			<result name="search">/power/powerSearchList.jsp</result>
+		</action>
+		<action name="role" class="roleAction">
+			<result name="add" type="chain">
+				<param name="actionName">role</param>
+				<param name="method">list</param>
+			</result>
+			<result name="list">/role/roleList.jsp</result>
+			<result name="delete" type="chain">
+				<param name="actionName">role</param>
+				<param name="method">list</param>
+			</result>
+			<result name="ready">/role/roleUpdate.jsp</result>
+			<result name="update" type="chain">
+				<param name="actionName">role</param>
+				<param name="method">list</param>
+			</result>
+			<result name="search">/role/roleSearchList.jsp</result>
+		</action>
 	</package>
 </struts>

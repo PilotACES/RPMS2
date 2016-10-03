@@ -1,25 +1,43 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>角色更新</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>角色管理</title>
 <style type="text/css" title="currentStyle" media="screen">
-     @import url(../css/maincss1.css);
-	 @import url(../css/mainborder1.css);
+     @import url(css/maincss1.css);
+	 @import url(css/mainborder1.css);
 </style>
-<script src="../js/valentine.js" type="text/javascript"></script>
-<script src="../js/information.js" type="text/javascript"></script>
-<script src="../js/birthday.js" type="text/javascript"></script>
+<script src="js/valentine.js" type="text/javascript" charset="gb2312"></script>
+<script src="js/information.js" type="text/javascript" charset="gb2312"></script>
+<script type="text/javascript">
+    function getPage(){
+        var page=<%= request.getParameter("pageNum")%>
+        var select=document.getElementById("pagenumber");
+        for(var i=0;i<select.options.length;i++){
+            var value=select.options[i].value;
+            if(value==page){
+                select.options[i].selected=true;
+                break;
+            }
+        }
+    }
+</script>
 </head>
 
-<body onload="startit();">
+<body onload="startit();getPage();">
 <div id="icon">fourthfire</div>
 <div id="userinfo">
-<h5>欢迎</h5>
-<h5></h5>
-<h5><a href="../Out.do">注销</a></h5>
-<h5><a href="../Out.do">退出</a></h5>
 <h5>现在时间</h5>
+<h5 id="year"></h5>
+<h5>年</h5>
+<h5 id="month"></h5>
+<h5>月</h5>
+<h5 id="day"></h5>
+<h5>日</h5>
+<h5 id="moreve"></h5>
 <h5 id="hours"></h5>
 <h5>:</h5>
 <h5 id="minutes"></h5>
@@ -36,7 +54,7 @@
 <li class="bannerli" onmouseover="show(1);"><h5><a href="#">管理员管理</a></h5>
 <ul class="bannerchild" id="banner1">
 <li><a href="../role/roleList.html">角色管理</a></li>
-<li><a href="../power/PowerList.do">权限管理</a></li>
+<li><a href="../power/PowerList.html">权限管理</a></li>
 <li><a href="../rp/rolePowerList.html">角色权限管理</a></li>
 <li><a href="../user/userList.html">用户管理</a></li>
 <li><a href="../backup/backup.html">数据管理</a></li>
@@ -116,38 +134,72 @@
 </ul>
 </div>
 <div id="main">
-<form name="roleUpdate" method="post" action="roleList.html" onsubmit="return checkrole()">
+<form name="form1" method="post" action="power!advance?pageNum=1" onsubmit="return checkkey()">
 <div id="index">
+<span class="style3">查询条件：</span>
+<select name="oneway">
+	<option value="0" selected="selected">--请选择--</option>
+	<option value="1">按权限名</option>
+</select> 
+<input type="text" name="onetext" value="请输入关键字" id="txt1" onfocus="selectText();"/> 
+<input type="submit" name="Submit" value="查询"/>
  </div>
+</form>
+<form name="form2" method="post" action="power!delete" onsubmit="return befSubmit();">
 <div id="table">
-<table>
-<caption>角色修改</caption>
+<table id="ec_table">
+<caption>权限信息表</caption>
 <thead>
+<tr>
+<th>选中</th>
+<th onclick="sortTable('ec_table',1,'string')">权限名</th>
+<th>修改</th>
+</tr>
 </thead>
 <tbody>
-<input type="hidden" name="roleId" value="${roleDto.roleId }">
-<tr>
-<td>角色名</td>
-<td><input name="roleName" type="text" value="${roleDto.roleName}" /> </td>
-<td>请输入中文或英文</td>
+<c:forEach items="${list.date }" var="power">
+<tr class="lightdown" onmousemove="this.className='lightup';" onmouseout="this.className='lightdown';">
+<td><input name="checkone" type="checkbox" value="${power.id}"/></td>
+<td>${power.powerName}</td>
+<td><a href="power!readyUpdate?id=${power.id}">edit</a></td>
 </tr>
-</input>
+</c:forEach>
 </tbody>
 <tfoot>
+<tr>
+            <td colspan="3">
+                      <h5>共${list.totalSize}条信息</h5>
+                        <h5>当前第${list.currentPage}页</h5>
+         <ul>                            <li><a href="power!list?pageNum=${list.first }">首页</a></li>
+                            <li><a href="power!list?pageNum=${list.previous }">前页</a></li>
+                            <li><a href="power!list?pageNum=${list.next }">后页</a></li>
+                            <li><a href="power!list?pageNum=${list.last }">末页</a></li>              
+                            <li><span>转到</span>
+                            <select name="pagenumber" id="pagenumber" onchange="power();">
+                                   <c:forEach begin="1" end="${list.totalPage }" var="item" step="1">                       
+                                  <option value="${item }">第${item}页</option>
+                                  </c:forEach>                                                           
+                            </select>
+                            </li>
+                         
+                        </ul>                  
+                        </td>
+               </tr>
                <tr>
                  <td colspan="3">
                   <ul>
-                     <li><input name="updateRole" type="submit" value="确定" class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"/></li>
-                     <li><input name="roelselect" type="reset" value="重置" class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"/></li>
-                  </ul>
+                     <li><input name="add" type="button" value="添加权限" onclick="window.location='power/powerAdd.html'" class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"/></li>
+                     <li><input name="delete" type="submit" value="删除权限" class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"/></li>
+                  </ul>  
                  </td>
               </tr>
 </tfoot>
-
 </table>
 </div>
 </form>
 </div>
+</div>
+
 <div id="foot">
 <ul>
 <li><a href="../welcome.html">首页</a></li>
@@ -158,6 +210,6 @@
 </ul>
 
 </div>
-</div>
+
 </body>
 </html>

@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../jquery-ui/external/jquery/jquery.js"></script>
 <script type="text/javascript" src="../jquery-ui/jquery-ui.js"></script>
 <script src="../js/valentine.js" type="text/javascript" charset="gb2312"></script>
-<script src="../js/information.js" type="text/javascript"></script>
+<script src="../js/information.js" type="text/javascript" charset="gb2312"></script>
 <script type="text/javascript" src="../js/datePicker.js"></script>
 <link href="../jquery-ui/jquery-ui.css" rel="stylesheet">
 </head>

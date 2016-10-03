@@ -48,4 +48,14 @@ public class RoleService implements GeneralService {
 		return rolesQuery.fenyeManyToOne(pageNum, pageSize, propertyName, propertyValue);
 	}
 
+	public IGenericDAO<RolesDTO, Integer> getRolesQuery() {
+		return rolesQuery;
+	}
+
+	public void setRolesQuery(IGenericDAO<RolesDTO, Integer> rolesQuery) {
+		this.rolesQuery = rolesQuery;
+	}
+	
+	
+
 }

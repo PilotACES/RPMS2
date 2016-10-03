@@ -47,6 +47,16 @@ public class RolePowerService implements GeneralService{
 			String propertyName, String propertyValue) {
 		return rolePowerQuery.fenyeManyToOne(pageNum, pageSize, propertyName, propertyValue);
 	}
+
+	public IGenericDAO<RolePower, Integer> getRolePowerQuery() {
+		return rolePowerQuery;
+	}
+
+	public void setRolePowerQuery(IGenericDAO<RolePower, Integer> rolePowerQuery) {
+		this.rolePowerQuery = rolePowerQuery;
+	}
+	
+	
 	
 	
 }

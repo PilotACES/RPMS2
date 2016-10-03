@@ -12,6 +12,11 @@ public class RolesDTO implements IPojo {
 	
 	private Set<UserDTO> user;
 
+	
+
+	public RolesDTO() {
+
+	}
 
 	public RolesDTO(Integer id, String roleName) {
 		this.id = id;

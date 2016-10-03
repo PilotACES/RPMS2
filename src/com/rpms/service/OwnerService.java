@@ -55,6 +55,15 @@ public class OwnerService implements GeneralService{
 		// TODO Auto-generated method stub
 		return ownerQuery.fenyeManyToOne(pageNum, pageSize, propertyName, propertyValue);
 	}
+
+	public IGenericDAO<OwnerDTO, Integer> getOwnerQuery() {
+		return ownerQuery;
+	}
+
+	public void setOwnerQuery(IGenericDAO<OwnerDTO, Integer> ownerQuery) {
+		this.ownerQuery = ownerQuery;
+	}
+	
 	
 	
 }

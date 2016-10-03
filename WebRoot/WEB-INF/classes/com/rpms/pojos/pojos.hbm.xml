@@ -97,7 +97,7 @@
 		<property name="powerName" />
 		<set name="rolePower" table="tb_rolePower" inverse="true">
 			<key column="power_id" />
-			<one-to-many class="RolePower" />
+			<many-to-many class="RolePower" />
 		</set>
 	</class>
 	<class name="RolesDTO" table="tb_roles">
@@ -107,7 +107,7 @@
 		<property name="roleName" />
 		<set name="rolePower" table="tb_rolePower" inverse="true">
 			<key column="role_id" />
-			<one-to-many class="RolePower" />
+			<many-to-many class="RolePower" />
 		</set>
 		<set name="user" table="tb_user" inverse="true">
 			<key column="roles_id" />

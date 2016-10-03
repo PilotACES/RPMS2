@@ -121,12 +121,12 @@
    function role(){
    	var oChange = document.getElementById("pagenumber");
    	var init = oChange.value;
-   	window.location="RoleList.do?curpage="+init;
+   	window.location="role!list?pageNum="+init;
    }
     function rolesearch(){
    	var oChange = document.getElementById("pagenumber");
    	var init = oChange.value;
-   	window.location="RoleSearchList.do?curpage="+init;
+   	window.location="role!advance?pageNum="+init;
    }    
    function pay(){
    	var oChange = document.getElementById("pagenumber");
@@ -181,12 +181,12 @@
     function power(){
    	var oChange = document.getElementById("pagenumber");
    	var init = oChange.value;
-   	window.location="PowerList.do?curpage="+init;
+   	window.location="power!list?pageNum="+init;
    }
       function powersearch(){
    	var oChange = document.getElementById("pagenumber");
    	var init = oChange.value;
-   	window.location="PowerSearchList.do?curpage="+init;
+   	window.location="power!advance?pageNum="+init;
    } 
    function build(){
    	var oChange = document.getElementById("pagenumber");

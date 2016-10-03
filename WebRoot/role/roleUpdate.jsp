@@ -1,15 +1,17 @@
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>角色管理</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>角色更新</title>
 <style type="text/css" title="currentStyle" media="screen">
-     @import url(../css/maincss1.css);
-	 @import url(../css/mainborder1.css);
+     @import url(css/maincss1.css);
+	 @import url(css/mainborder1.css);
 </style>
-<script src="../js/valentine.js" type="text/javascript"></script>
-<script src="../js/information.js" type="text/javascript"></script>
+<script src="js/valentine.js" type="text/javascript" charset="gb2312"></script>
+<script src="js/information.js" type="text/javascript" charset="gb2312"></script>
+<script src="js/birthday.js" type="text/javascript"></script>
 </head>
 
 <body onload="startit();">
@@ -20,6 +22,13 @@
 <h5><a href="../Out.do">注销</a></h5>
 <h5><a href="../Out.do">退出</a></h5>
 <h5>现在时间</h5>
+<h5 id="year"></h5>
+<h5>年</h5>
+<h5 id="month"></h5>
+<h5>月</h5>
+<h5 id="day"></h5>
+<h5>日</h5>
+<h5 id="moreve"></h5>
 <h5 id="hours"></h5>
 <h5>:</h5>
 <h5 id="minutes"></h5>
@@ -36,7 +45,7 @@
 <li class="bannerli" onmouseover="show(1);"><h5><a href="#">管理员管理</a></h5>
 <ul class="bannerchild" id="banner1">
 <li><a href="../role/roleList.html">角色管理</a></li>
-<li><a href="../power/PowerList.html">权限管理</a></li>
+<li><a href="../power/PowerList.do">权限管理</a></li>
 <li><a href="../rp/rolePowerList.html">角色权限管理</a></li>
 <li><a href="../user/userList.html">用户管理</a></li>
 <li><a href="../backup/backup.html">数据管理</a></li>
@@ -112,33 +121,35 @@
 <li><a href="../material/materialList.html">修改物资</a></li>
 </ul>
 </li>
-
 </ul>
 </div>
 <div id="main">
-<form name="powerUpdate" method="post" action="powerList.html" onsubmit="return checkpower()">
+<form name="roleUpdate" method="post" action="role!update?id=${role.id }" onsubmit="return checkrole()">
 <div id="index">
  </div>
 <div id="table">
 <table>
-<caption>权限修改</caption>
+<caption>角色修改</caption>
 <thead>
 </thead>
 <tbody>
-<input type="hidden" name="powerId" value="${powerDto.powerId }">
 <tr>
-<td>权限名</td>
-<td><input name="powerName" type="text" value="${powerDto.powerName}" /> </td>
+<td>角色ID</td>>
+<td><input type="text" disabled="sdisabled" name="roleId" value="${role.id }"></td>
+<td></td>
+</tr>
+<tr>
+<td>角色名</td>
+<td><input name="roleName" type="text" value="${role.roleName}" /> </td>
 <td>请输入中文或英文</td>
 </tr>
-</input>
 </tbody>
 <tfoot>
                <tr>
                  <td colspan="3">
                   <ul>
-                     <li><input name="updatePower" type="submit" value="确定" class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"/></li>
-                     <li><input name="powerselect" type="reset" value="重置" class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"/></li>
+                     <li><input name="updateRole" type="submit" value="确定" class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"/></li>
+                     <li><input name="roelselect" type="reset" value="重置" class="button" onmouseout="this.className='button';" onmouseover="this.className='buttondown';"/></li>
                   </ul>
                  </td>
               </tr>

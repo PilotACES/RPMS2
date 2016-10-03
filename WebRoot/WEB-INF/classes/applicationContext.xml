@@ -60,12 +60,24 @@ http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
 	<bean id="roomQuery" class="com.rpms.dao.impl.RoomQuery" parent="genericHibernateDAO" />
 
+	<bean id="powerQuery" class="com.rpms.dao.impl.PowerQuery" parent="genericHibernateDAO" />
+
+	<bean id="rolesQuery" class="com.rpms.dao.impl.RolesQuery" parent="genericHibernateDAO" />
+
 	<bean id="buildService" class="com.rpms.service.BuildService">
 		<property name="generalDAO" ref="buildQuery" />
 	</bean>
 
 	<bean id="roomService" class="com.rpms.service.RoomService">
 		<property name="roomQuery" ref="roomQuery" />
+	</bean>
+
+	<bean id="powerService" class="com.rpms.service.PowerService">
+		<property name="powerQuery" ref="powerQuery" />
+	</bean>
+
+	<bean id="roleService" class="com.rpms.service.RoleService">
+		<property name="rolesQuery" ref="rolesQuery" />
 	</bean>
 
 	<bean id="buildAction" class="com.rpms.action.BuildAction">
@@ -76,4 +88,13 @@ http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 		<property name="buildService" ref="buildService" />
 		<property name="roomService" ref="roomService" />
 	</bean>
+
+	<bean id="powerAction" class="com.rpms.action.PowerAction">
+		<property name="powerService" ref="powerService" />
+	</bean>
+
+	<bean id="roleAction" class="com.rpms.action.RoleAction">
+		<property name="roleService" ref="roleService"></property>
+	</bean>
+
 </beans>

@@ -48,5 +48,14 @@ public class PowerService implements GeneralService{
 			String propertyName, String propertyValue) {
 		return powerQuery.fenyeManyToOne(pageNum, pageSize, propertyName, propertyValue);
 	}
+
+	public IGenericDAO<PowerDTO, Integer> getPowerQuery() {
+		return powerQuery;
+	}
+
+	public void setPowerQuery(IGenericDAO<PowerDTO, Integer> powerQuery) {
+		this.powerQuery = powerQuery;
+	}
+	
 	
 }
