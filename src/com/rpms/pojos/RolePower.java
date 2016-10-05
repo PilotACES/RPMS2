@@ -1,5 +1,7 @@
 package com.rpms.pojos;
 
+import java.util.Set;
+
 public class RolePower implements IPojo{
 	
 	private Integer id;
@@ -39,12 +41,5 @@ public class RolePower implements IPojo{
 	public void setPower(PowerDTO power) {
 		this.power = power;
 	}
-	
-	
-	
-	
-	
-	
-	
 
 }

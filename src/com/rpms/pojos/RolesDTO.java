@@ -39,14 +39,6 @@ public class RolesDTO implements IPojo {
 		this.roleName = roleName;
 	}
 
-	public Set<RolePower> getRolePower() {
-		return rolePower;
-	}
-
-	public void setRolePower(Set<RolePower> rolePower) {
-		this.rolePower = rolePower;
-	}
-
 	public Set<UserDTO> getUser() {
 		return user;
 	}
@@ -54,9 +46,13 @@ public class RolesDTO implements IPojo {
 	public void setUser(Set<UserDTO> user) {
 		this.user = user;
 	}
-	
-	
-	
-	
+
+	public Set<RolePower> getRolePower() {
+		return rolePower;
+	}
+
+	public void setRolePower(Set<RolePower> rolePower) {
+		this.rolePower = rolePower;
+	}
 
 }

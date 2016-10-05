@@ -79,5 +79,8 @@
 			</result>
 			<result name="search">/role/roleSearchList.jsp</result>
 		</action>
+		<action name="rolePower" class="rolePowerAction">
+		<result name="readyAdd">/rp/rolePowerAdd.jsp</result>
+		</action>
 	</package>
 </struts>

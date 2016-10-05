@@ -64,6 +64,9 @@ http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
 	<bean id="rolesQuery" class="com.rpms.dao.impl.RolesQuery" parent="genericHibernateDAO" />
 
+	<bean id="rolePowerQuery" class="com.rpms.dao.impl.RolePowerQuery"
+		parent="genericHibernateDAO" />
+
 	<bean id="buildService" class="com.rpms.service.BuildService">
 		<property name="generalDAO" ref="buildQuery" />
 	</bean>
@@ -78,6 +81,10 @@ http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
 	<bean id="roleService" class="com.rpms.service.RoleService">
 		<property name="rolesQuery" ref="rolesQuery" />
+	</bean>
+
+	<bean id="rolePowerService" class="com.rpms.service.RolePowerService">
+		<property name="rolePowerQuery" ref="rolePowerQuery" />
 	</bean>
 
 	<bean id="buildAction" class="com.rpms.action.BuildAction">
@@ -95,6 +102,12 @@ http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
 	<bean id="roleAction" class="com.rpms.action.RoleAction">
 		<property name="roleService" ref="roleService"></property>
+	</bean>
+
+	<bean id="rolePowerAction" class="com.rpms.action.RolePowerAction">
+		<property name="rolePowerService" ref="rolePowerService" />
+		<property name="roleService" ref="roleService"/>
+		<property name="powerService" ref="powerService"/>
 	</bean>
 
 </beans>

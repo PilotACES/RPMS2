@@ -1,7 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>角色管理</title>
 <style type="text/css" title="currentStyle" media="screen">
      @import url(../css/maincss1.css);
@@ -9,6 +12,7 @@
 </style>
 <script src="../js/valentine.js" type="text/javascript"></script>
 <script src="../js/information.js" type="text/javascript"></script>
+<script src="js/selectOps.js" type="text/javascript"></script>
 </head>
 
 <body onload="startit();">
@@ -115,7 +119,7 @@
 </ul>
 </div>
 <div id="main">
-<form name="rolePower" method="post" action="RolePowerAdd.do" onsubmit="return ff();">
+<form name="rolePower" method="post" action="rolePower!add" onsubmit="return ff();">
 <div id="index">
  </div>
 <div id="table">
@@ -124,28 +128,28 @@
 <thead>
 </thead>
 <tbody>
-
 <tr>
 <td>角色名</td>
 <td>
-<select name="rolenm">
-<option value=""></option
-></select>
+<select id="roleName" name="roleName">
+<c:forEach items="${roleList }" var="role" >
+<option value="${role.id }">${role.roleName }</option>
+</c:forEach>
+</select>
 </td>
 <td>请输入中文，不得超过8位数</td>
 </tr>
-<tr><td>角色描述</td><td colspan="2" align="left"><textarea cols="20" rows="5"></textarea></td></tr>
 <tr>
 <td>权限名</td>
 <td>
-<select name="powerNameSelect" multiple="multiple" size="8">
-
-<option value=""></option>
-
+<select id="powerNameSelect" name="powerNameSelect" multiple="multiple" size="8">
+<c:forEach items="${powerList}" var="power">
+<option value="${power.id }">${power.powerName }</option>
+</c:forEach>
 </select>
 <input type="button" value="添加" onclick="onSub();"/>
 <input type="button" value="删除" onclick="onDel();"/>
-<select name="xuanze" multiple="multiple" size="8" id="check">
+<select id="xuanze" name="xuanze" multiple="multiple" size="8" id="check">
 
 </select>
 </td>
@@ -156,7 +160,7 @@
                <tr>
                  <td colspan="3">
                   <ul class="button">
-                     <li><input name="addnews" type="submit" value="确定"/></li>
+                     <li><input name="addnews" type="submit" value="确定" onclick="selectedAll();"/></li>
                      
                   </ul>
                  </td>
